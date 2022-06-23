@@ -24,7 +24,7 @@ import {
 
          </div>
          <div className='grid max-w-xl place-items-end'>
-         <HeaderItem title='SIGN IN' Icon={UserIcon} />
+         <HeaderItem title='ACCOUNT' Icon={UserIcon} />
          </div>
         </header>
 
