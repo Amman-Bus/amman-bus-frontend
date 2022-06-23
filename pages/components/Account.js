@@ -6,7 +6,7 @@ import SignUp from './SignUp'
 
 function Account() {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(true)
 
 
   return (
