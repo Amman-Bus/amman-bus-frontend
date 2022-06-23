@@ -4,7 +4,7 @@ import SignUpAsPassenger from './SignUpAsPassenger'
 
 function SignUp() {
     
-    const [isDirver, setIsDriver] = useState(true)
+    const [isDirver, setIsDriver] = useState(false)
 
 
   return (

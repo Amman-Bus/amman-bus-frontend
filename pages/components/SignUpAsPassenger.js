@@ -9,7 +9,7 @@ function SignUpAsPassenger (){
             <h3 className='text-xl font-semibold text-white pt-2'>Create an Account!</h3>
     
     
-            <div className='flex flex-col items-center justify-center mt-2'>
+            <form className='flex flex-col items-center justify-center mt-2'>
                 <input type="text" className='rounded-2xl px-2 py-1 w-4/5 md:w-full border-[1px] border-blue-400 m-1 focus:shadow-md focus:border-pink-400 focus:outline-none focus:ring-0' placeholder='First Name'></input>
                 <input type="text" className='rounded-2xl px-2 py-1 w-4/5 md:w-full border-[1px] border-blue-400 m-1 focus:shadow-md focus:border-pink-400 focus:outline-none focus:ring-0' placeholder='Middle Name'></input>
                 <input type="text" className='rounded-2xl px-2 py-1 w-4/5 md:w-full border-[1px] border-blue-400 m-1 focus:shadow-md focus:border-pink-400 focus:outline-none focus:ring-0' placeholder='Last Name'></input>
@@ -29,7 +29,7 @@ function SignUpAsPassenger (){
                 <button className='rounded-2xl m-2 text-white bg-blue-400 w-2/5 px-4 py-2 shadow-md hover:text-blue-400 hover:bg-white transition duration-200 ease-in'>
                     Sign In As A Passenger
                 </button>
-            </div>
+            </form>
     
     
             <div className='inline-block border-[1px] justify-center w-20 border-white border-solid'></div>
