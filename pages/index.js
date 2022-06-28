@@ -12,11 +12,12 @@ function Home() {
       <Head>
         <title>Amman Bus</title>
         <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Header />
-        {/* <Account /> */}
-        <MapSection />
-
+      </Head>
+      
+      <Header />
+      {/* <Account /> */
+      }
+      <MapSection />
         
     </div>
   )
