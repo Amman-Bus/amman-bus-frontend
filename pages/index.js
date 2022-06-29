@@ -1,23 +1,21 @@
 import Head from 'next/head'
 import Header from './components/Header'
-import MapSection from './components/MapSection'
-// import Account from './components/Account'
 import React from 'react'
-
+import MainPage from './components/MainPage'
 
 function Home() {
 
   return (
-    <div>
+    <div id="main" className='bg-white'>
+
       <Head>
         <title>Amman Bus</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
       <Header />
-      {/* <Account /> */
-      }
-      <MapSection />
+
+      <MainPage />
         
     </div>
   )

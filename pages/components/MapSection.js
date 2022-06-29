@@ -8,11 +8,12 @@ import {
     DirectionsRenderer
 } from '@react-google-maps/api'
 
+import busData from "../../static/busData.json"
+
 
 function MapSection () {
 
     const API_KEY = "AIzaSyCMl98QtnsYKsQ6PbhTowjVYmD0qHwFBVY"
-
     // const center = useMemo(() => ({lat:30.5852, lng:36.2384, zoom:7}), [])
     const center = useMemo(() => ({lat:31.931641377563746, lng:35.9440551166519, zoom:12}), [])
 
@@ -67,11 +68,11 @@ function MapSection () {
         return <div>Loading...</div>
     }
 
-    function addMarker(latlng, label) {
+    function addMarker(lat, lng, label) {
         const newMarker = {
             label: label,
-            lat: latlng.lat(),
-            lng: latlng.lng(),
+            lat: lat,
+            lng: lng,
         }
         setMarkers([...markers, newMarker]);
     }
@@ -127,18 +128,17 @@ function MapSection () {
     }
 
     function mapClickHandler(latlng) {
+        addMarker(latlng.lat(), latlng.lng(), "x")
         
         if(selectingOriginPin) {
             var element = document.getElementById("origin-coords")
             element.value = latlng.lat() + ', ' + latlng.lng()
             setOrigin({lat: latlng.lat(), lng: latlng.lng()})
-            // addMarker(latlng, 'origin')
         } 
         if(selectingDestPin) {
             var element = document.getElementById("dest-coords")
             element.value = latlng.lat() + ', ' + latlng.lng()
             setDest({lat: latlng.lat(), lng: latlng.lng()})
-            // addMarker(latlng, 'dest')
         }
     }
     
@@ -197,16 +197,16 @@ function MapSection () {
         navigator.geolocation.clearWatch(watchId)
     }
 
-    async function calcRoute(originField, destField) {
-        if (originField.current.value === '' || destField.current.value === '') {
+    async function calcRoute(originCoords, destCoords) {
+        if (originCoords === '' || destCoords === '') {
             alert("Please enter places of the origin and destination")
             return
         }
 
         const directionService = new google.maps.DirectionsService()
         const directionsRequest = {
-            origin: originField.current.value,
-            destination: destField.current.value,
+            origin: originCoords,
+            destination: destCoords,
             travelMode: google.maps.TravelMode.DRIVING,
         }
 
@@ -216,8 +216,9 @@ function MapSection () {
         setDistance(directions.routes[0].legs[0].distance.text) 
         setDuration(directions.routes[0].legs[0].duration.text)
 
-
+        
         console.log(directions);
+
     }
 
 
@@ -227,10 +228,33 @@ function MapSection () {
         setDuration('')
         originField.current.value = ''
         destField.current.value = ''
-        // map.
     }
 
-    liveTracker()
+    function drawRoutes() {
+        const stops = busData.routes[0].stops
+
+        for (let index = 0; index < stops.length; index++) {
+            // addMarker({lat: stops[index][0], lng: stops[index][1]}, index.toString())
+            
+            if (index != stops.length-1) {
+                
+                var point1 = stops[index][0]
+                point1 = point1.toString() + ", " + stops[index][1].toString() 
+                var point2 = stops[index+1][0] + 0.00001
+                point2 = point2.toString() + ", " + stops[index+1][1].toString() 
+                
+                console.log("starting " + index)
+                setTimeout(() => {
+                    calcRoute(point1, point2)
+                    console.log("finishing " + index)
+                }, 4000)
+            }            
+        }
+    }
+
+
+
+    // liveTracker()
 
 
     return (
@@ -297,7 +321,7 @@ function MapSection () {
             <button className='bg-emerald-200 m-2 p-3 rounded-md'
                 onClick={(e) => {
                     e.preventDefault();
-                    calcRoute(originRef1, destRef1)
+                    calcRoute(originRef1.current.value, destRef1.current.value)
                 }}
                 >Calc route</button>
 
@@ -334,6 +358,11 @@ function MapSection () {
             onClick={getCurrentLocation}
         >Current Location</button>
 
+        <button 
+            className='text-black text-xl font-bold m-5 p-2 bg-blue-400'
+            onClick={drawRoutes}
+        >Draw static routes</button>
+
 
         <GoogleMap
             mapContainerStyle={{width:'80%', height:'600px', "marginBottom":'50px'}}
@@ -349,15 +378,8 @@ function MapSection () {
             }}
         >
 
-            {/* {directionsResponse && <DirectionsRenderer directions={directionsResponse} />} */}
-            
-            {directionsResponse && <DirectionsRenderer 
-                options={{ 
-                    directions: directionsResponse
-                  }} 
-            />}
-
-
+            {directionsResponse && <DirectionsRenderer directions={directionsResponse} />}
+        
             <div id='markers'>
                 {origin.lat != null || origin.lng != null ?
                     <Marker
@@ -385,6 +407,14 @@ function MapSection () {
                     /> :
                     null
                 }
+
+                {markers.map(marker => 
+                    <Marker
+                    position={{lat: marker.lat, lng: marker.lng}}
+                    label={marker.label}
+                    onClick={(e) => alert(e.latLng)}
+                    />
+                )}
 
             </div> 
 
