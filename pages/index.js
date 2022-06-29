@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Header from './components/Header'
 import React from 'react'
 import MainPage from './components/MainPage'
+import Driver from './components/Driver'
 
 function Home() {
 
@@ -16,6 +17,8 @@ function Home() {
       <Header />
 
       <MainPage />
+
+      {/* <Driver /> */}
         
     </div>
   )
