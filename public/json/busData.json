@@ -1,0 +1,128 @@
+{
+    "buses": [
+        {
+            "BusID": "101", 
+            "RouteID": "101", 
+            "Departure": "08:00 AM", 
+            "Arrival": "09:00 AM",
+            "Location": {"lat": null, "lng": null}
+        },
+        {
+            "BusID": "102", 
+            "RouteID": "101", 
+            "Departure": "08:30 AM", 
+            "Arrival": "09:30 AM",
+            "Location": {"lat": null, "lng": null}
+        },
+        {
+            "BusID": "103", 
+            "RouteID": "101", 
+            "Departure": "09:00 AM", 
+            "Arrival": "10:00 AM",
+            "Location": {"lat": null, "lng": null}
+        },
+        {
+            "BusID": "104", 
+            "RouteID": "102", 
+            "Departure": "08:00 AM", 
+            "Arrival": "09:30 AM",
+            "Location": {"lat": null, "lng": null}
+        },
+        {
+            "BusID": "105", 
+            "RouteID": "102", 
+            "Departure": "08:30 AM", 
+            "Arrival": "10:00 AM",
+            "Location": {"lat": null, "lng": null}
+        }
+    ],
+
+    "stations": [
+        {
+            "StationID": "101",
+            "Name": "Swaileh",
+            "Routes": ["???","???","???","???","???"],
+            "Location": {"lat": 32.02918545075627, "lng": 35.82555097494971}
+        },
+        {
+            "StationID": "102",
+            "Name": "Al-Mahatta-Terminal",
+            "Routes": ["???","???"],
+            "Location": {"lat": 31.963422390544984,"lng": 35.9614181169442}
+        },
+        {
+            "StationID": "103",
+            "Name": "BRT-Jordan-Museum-Terminal",
+            "Routes": ["???","???","???","???","???","???","???"],
+            "Location": {"lat": 31.945831295352086,"lng": 35.928585519071426}
+        },
+        {
+            "StationID": "104",
+            "Name": "BRT-Swaileh-Terminal",
+            "Routes": ["???","???","???","???"],
+            "Location": {"lat": 32.0207291978248,"lng": 35.84342509204209}
+        }
+    ],
+
+    "routes": [
+        {
+            "RouteID": "101", 
+            "Starts": "BRT-Swaileh-Terminal", 
+            "Ends": "BRT-Jordan-Museum-Terminal", 
+            "Stations": ["101","102","103","104"], 
+            "Duration": "01:00", 
+            "Distance":"???"
+        },
+        {
+            "RouteID": "102", 
+            "Starts": "???", 
+            "Ends": "???", 
+            "Stations": ["???","???","???"], 
+            "Duration": "???", 
+            "Distance":"???"
+        },
+        {
+            "RouteID": "103", 
+            "Starts": "???", 
+            "Ends": "???", 
+            "Stations": ["???","???","???"], 
+            "Duration": "???", 
+            "Distance":"???"
+        },
+        {
+            "RouteID": "104", 
+            "Starts": "???", 
+            "Ends": "???", 
+            "Stations": ["???","???","???"], 
+            "Duration": "???", 
+            "Distance":"???"
+        }
+    ],
+
+    "price": [
+        {
+            "RouteID": "101",
+            "Price": "0.5"
+        },
+        {
+            "RouteID": "102",
+            "Price": "0.5"
+        },
+        {
+            "RouteID": "103",
+            "Price": "0.5"
+        },
+        {
+            "RouteID": "104",
+            "Price": "0.5"
+        },
+        {
+            "RouteID": "105",
+            "Price": "0.5"
+        }
+    ]
+}
+
+
+
+

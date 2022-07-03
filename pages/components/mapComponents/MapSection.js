@@ -8,7 +8,7 @@ import {
     DirectionsRenderer
 } from '@react-google-maps/api'
 
-import busData from "../../static/busData.json"
+import busData from "../../../static/busData.json"
 
 
 function MapSection () {
@@ -365,7 +365,7 @@ function MapSection () {
 
 
         <GoogleMap
-            mapContainerStyle={{width:'80%', height:'600px', "marginBottom":'50px'}}
+            mapContainerStyle={{width:'80%', height:'600px'}}
             center={{lat: center.lat, lng: center.lng}}
             zoom={center.zoom}
             onLoad={map => setMap(map)}
