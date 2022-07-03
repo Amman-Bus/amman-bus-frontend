@@ -18,7 +18,7 @@ function Home() {
 
       <MainPage />
 
-      {/* <Driver /> */}
+      <Driver />
         
     </div>
   )
