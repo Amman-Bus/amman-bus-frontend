@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import Header from './Header'
+import Header from '../pageStructure/Header'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 

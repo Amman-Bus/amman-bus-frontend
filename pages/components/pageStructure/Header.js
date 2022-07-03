@@ -1,11 +1,18 @@
   import React, { useState } from 'react'
-  import HeaderItem from './HeaderItem'
   import { FaUser } from 'react-icons/fa';
 
 
   function Header() {
 
     const [isAccountList, setIsAccountList] = useState(false)
+
+    const navItems = [
+      ["Timelines", "divider1"], 
+      ["Stations", "divider2"],
+      ["Routes", "divider3"], 
+      ["Prices", "divider4"],
+      ["Services", "s"]
+     ]
 
     // only work after rendering the components  
     React.useEffect(() => {
@@ -38,8 +45,7 @@
         })
     
       })
-
-      
+    
     function accountListPopper(order) {
       const accountList = document.getElementById("accountList")
       const accountIcon = document.getElementById("accountIcon")
@@ -79,6 +85,10 @@
       }
     }
 
+    function servicesHandler() {
+      
+    }
+
 
     return (
       <header className='w-full h-fit'>
@@ -86,23 +96,42 @@
         <div id="header" className='transform-none top-0 flex justify-between m-0 bg-primary-top z-20
         items-center border-secondary-top border-b fixed w-full transition duration-500 ease-out h-r15'>
 
-          <button className='bg-primary-top h-20 transition duration-300 ease-out hover:opacity-75 hover:translate-x-16'>
+          <button className='bg-primary-top h-full transition duration-300 ease-out hover:opacity-75 hover:translate-x-10 w-3/12'>
             <img src='./images/logo1.png' alt='logo' className='h-full'/>
           </button>
 
-          <div className='flex bg-primary-top'>
-            <HeaderItem title="Timelines"/>
-            <HeaderItem title="Bus Stations"/>
-            <HeaderItem title="Bus Tracker"/>
-            <HeaderItem title="Routes"/>
-            <HeaderItem title="Prices"/>
+          <div className='flex bg-primary-top w-7/12 h-full items-center'>
+            {navItems.map(item =>
+                {
+                  if(item[1] !== "s") {
+                    return <div className='h-fit w-1/6 p-r2'>
+                        <button style={{fontSize: "100%"}} onClick={()=>{document.querySelector('#'+item[1]).scrollIntoView({behavior: 'smooth'})}}
+                        className='bg-secondary-top h-full w-full p-r8 text-tratiary-top font-bold 
+                        transition duration-300 ease-out hover:-skew-y-6 hover:scale-130 hover:bg-primary-top 
+                        hover:text-secondary-top rounded-lg z-20'>
+                          {item[0]}</button>
+                      </div>
+                    } else {
+                      return <div className='h-fit w-1/6 p-r2'>
+                        <button style={{fontSize: "100%"}} onClick={servicesHandler}
+                        className='bg-secondary-top h-full w-full p-r8 text-tratiary-top font-bold 
+                        transition duration-300 ease-out hover:-skew-y-6 hover:scale-130 hover:bg-primary-top 
+                        hover:text-secondary-top rounded-lg z-20'>
+                          {item[0]}</button>
+                      </div> 
+                    }
+                }
+            )}
           </div>
 
-          <button className='bg-secondary-top mr-4 p-4 rounded-full h-fit transition duration-300 ease-out 
-          hover:opacity-50'
-          onClick={()=>{accountListPopper("trigger")}} id='accountIcon'>
-            <FaUser size="25" color='white'/>
-          </button>
+          <div className='w-1/12 flex justify-center items-center'>
+            <button className='bg-secondary-top p-4 rounded-full h-fit transition duration-300 ease-out 
+            hover:opacity-50'
+            onClick={()=>{accountListPopper("trigger")}} id='accountIcon'>
+              <FaUser size="1.5vw" color='white'/>
+            </button>
+          </div>
+
         </div>
 
         <div id='accountList' className='fixed bg-transparent w-32  right-3 flex flex-col text-lg font-bold text-tratiary-top
