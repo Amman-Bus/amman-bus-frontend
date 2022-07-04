@@ -5,6 +5,11 @@ function SignIn (props){
     const email = useRef()
     const password = useRef()
 
+    function goToAdminPage(e) {
+        e.preventDefault()
+        window.open(props.BACKEND_HEROKU_URL + "/admin/", '_blank')
+    }
+
     function signUpHandler(e) {
         e.preventDefault()
         props.setIsLoggedIn(false)
@@ -28,7 +33,7 @@ function SignIn (props){
 
             if(radios[0].checked) {
                 props.setUserType("passenger")
-            } else {
+            } else if(radios[1].checked) {
                 props.setUserType("driver")
             }
         }
@@ -51,20 +56,40 @@ function SignIn (props){
                         >Select the type of your account</label>
                     
                     <label className='text-center text-secondary-top mt-4 text-[3vh] font-bold'>Passenger</label>
+                    <input required className='mt-4 w-6 h-6' type="radio" id="pass" value="Passenger" name='accountType'/>
+                    
                     <label className='text-center text-secondary-top mt-4 text-[3vh] font-bold'>Driver</label>
-                    <input required className='mt-4' type="radio" id="pass" value="Passenger" name='accountType'/>
-                    <input required className='mt-4' type="radio" id="drive" value="Driver" name='accountType'/>
+                    <input required className='mt-4 w-6 h-6' type="radio" id="drive" value="Driver" name='accountType'/>
+                
                 </div>
 
-                <button className='w-fit font-bold rounded-2xl m-2 mt-10 text-white bg-secondary-top px-4 py-2 shadow-md hover:text-blue-400 hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
+                <button 
+                className='w-fit font-bold rounded-2xl m-2 mt-10 text-white bg-secondary-top px-4 py-2 shadow-md hover:text-blue-400 hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
                     Sign In
                 </button>
+
             </form>
 
-            <p className='text-secondary-top mt-4 text-[3vh]'>Don't Have an Account?</p>
-            <p className='text-secondary-top mt-4 text-[3vh] font-bold cursor-pointer hover:scale-110 hover:bg-secondary-top hover:text-white
+
+            <div className='text-secondary-top mt-4 text-[3vh]'>Don't Have an Account?</div>
+
+            <button className='text-secondary-top mt-4 text-[3vh] font-bold cursor-pointer hover:scale-110 hover:bg-secondary-top hover:text-white
             transition duration-500 ease-out p-2 rounded-full' 
-            onClick={(e) => signUpHandler(e)}>Create an Account</p>
+                onClick={(e) => signUpHandler(e)}>Create an Account</button>
+
+            <button onClick={(e)=>{
+                e.preventDefault()
+                props.setIsLoggedIn(false)
+                props.setIsSignUP(false)
+            }}
+            className='w-fit font-bold rounded-2xl m-2 mt-10 text-white bg-secondary-top px-4 py-2 shadow-md hover:text-blue-400 hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
+                Back to the main page
+            </button>
+
+            <button className='w-fit font-bold rounded-2xl m-2 mt-10 text-white bg-secondary-top px-4 py-2 shadow-md hover:text-blue-400 hover:bg-white hover:text-secondary-top transition duration-200 ease-in'
+            onClick={(e)=>{goToAdminPage(e)}}>
+                Go To Admin Page
+            </button>
 
         </div>
 

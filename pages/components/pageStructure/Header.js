@@ -143,11 +143,6 @@
     function servicesHandler() {
       if (props.isAuthorized) {
         props.setIsService(true)
-        if (props.userType == "passenger") {
-          props.setUserType("passenger")
-        } else {
-          props.setUserType("driver")
-        }
       } else {
         alert("You must be a logged-in user to access this page !")
       }

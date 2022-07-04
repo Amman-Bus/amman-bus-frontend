@@ -56,6 +56,16 @@ function SignUp(props){
                 transition duration-500 ease-out p-2 rounded-full' 
                 onClick={(e) => logInHandler(e)}>Sign In to your Account</div>
 
+                <button onClick={(e)=>{
+                    e.preventDefault()
+                    props.setIsLoggedIn(false)
+                    props.setIsSignUP(false)
+                }}
+                className='w-fit font-bold rounded-2xl m-2 mt-10 text-white bg-secondary-top px-4 py-2 shadow-md hover:text-blue-400 hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
+                    Back to the main page
+                </button>
+
+                
             </div>
 
         </div>

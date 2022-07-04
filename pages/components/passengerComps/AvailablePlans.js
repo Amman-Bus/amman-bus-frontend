@@ -14,12 +14,15 @@ function AvailablePlans(props) {
 
     const busesData = busData.buses
     const [selectedBus, setSelectedBus] = useState(busesData[0])
+    props.setSelectedBusObject(busesData[0])
+
 
     const options={zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}
     const icon = './icons/busStop.ico'
 
     function pinClickHandler(bus) {
         setSelectedBus(bus)
+        props.setSelectedBusObject(bus)
     }
 
     function displayAllBuses(data) {
@@ -31,8 +34,8 @@ function AvailablePlans(props) {
         document.querySelector('#myTrip').scrollIntoView({behavior: 'smooth'})
         const qrcode = document.getElementById('qrcode')
 
-        // TODO: create the QR-Code
-         
+        props.setValue(props.selectedBusObject['BusID']+props.selectedBusObject['RouteID'])
+        // TODO: save it in the database
     }
 
 
@@ -108,7 +111,7 @@ function AvailablePlans(props) {
                     submissiomHandler(e)
                 }} 
                 className='w-fit font-bold rounded-2xl m-2 text-white bg-secondary-top px-4 py-2 shadow-md hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
-                    Confirm payment
+                    Confirm Trip
                 </button>
 
         </div>
