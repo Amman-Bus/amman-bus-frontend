@@ -1,11 +1,8 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { 
     GoogleMap, 
-    LoadScript, 
     useJsApiLoader,
     Marker,
-    Autocomplete, 
-    DirectionsRenderer
 } from '@react-google-maps/api'
 import busData from '../../../public/json/busData.json'
 
