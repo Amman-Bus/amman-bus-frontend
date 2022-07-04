@@ -1,13 +1,6 @@
-import React, { useRef, useState, useMemo } from 'react'
-import { 
-    GoogleMap, 
-    LoadScript, 
-    useJsApiLoader,
-    Marker,
-    Autocomplete, 
-    DirectionsRenderer
-} from '@react-google-maps/api'
+import React, { useState } from 'react'
 import busData from '../../../public/json/busData.json'
+import GlobalMap from '../pageStructure/GlobalMap'
 
 
 function Timelines(props) {
@@ -18,15 +11,10 @@ function Timelines(props) {
 
     const tableHeaders = ["Bus ID", "Route ID", "Departure", "Arrival", "Capacity", "Rating"]
     const tableData = busData.buses
-
-    const { isLoaded } = useJsApiLoader({googleMapsApiKey: props.API_KEY})
-    if (!isLoaded) {return <div>Loading...</div>}
-
     
     function addMarker(lat, lng) {
         const newMarker = {
-            lat: lat,
-            lng: lng,
+            "Location": {"lat": lat, "lng": lng}
         }
         setMarkers([...markers, newMarker])
     }
@@ -34,14 +22,8 @@ function Timelines(props) {
     function clearMarkers() {setMarkers([])}
 
     function displayAllStations() {
-        const allMarkers = tableData.map(obj => {return {lat: obj['Location'].lat, lng: obj['Location'].lng}})
-        setMarkers(allMarkers)
+        setMarkers(tableData)
     }
-
-    // function mapClickHandler(latlng) {
-    //     setCenter({lat:latlng.lat(), lng:latlng.lng(), zoom:15})
-    //     addMarker(latlng.lat(), latlng.lng())
-    // }
 
     function displayBus(lat, lng) {
         document.querySelector('#busessMap').scrollIntoView({behavior: 'smooth'})
@@ -49,6 +31,11 @@ function Timelines(props) {
         addMarker(lat, lng)
     }
 
+    function onLoadFunction(data) {}
+
+    function pinClickHandler(marker) {
+        alert(marker.latLng)
+    }
 
     return (
         <div id='section1' className='bg-transparent w-full flex flex-col justify-center items-center 
@@ -111,36 +98,21 @@ function Timelines(props) {
 
                 <div id='busessMap' style={{height: "70vh", width: "70vh"}}
                 className='border-2 border-primary-top drop-shadow bg-secondary-top rounded-3xl flex justify-center items-center overflow-hidden'>
-                    <GoogleMap
-                        mapContainerStyle={{width:'100%', height:'100%'}}
-                        center={{lat: center.lat, lng: center.lng}}
-                        zoom={center.zoom}
-                        onLoad={map => setMap(map)}
-                        // onClick={(e) => mapClickHandler(e.latLng)}
-                        options={{
-                            zoomControl: false,
-                            streetViewControl: false,
-                            mapTypeControl: false,
-                            fullscreenControl: false
-                        }}
-                    >
                     
-                        <div id='markers2'>
-                            {markers.map(marker => 
-                                <Marker
-                                    position={{lat: marker.lat, lng: marker.lng}}
-                                    label={marker.label}
-                                    onClick={(e) => alert(e.latLng)}
-                                    icon={{
-                                        url: ('./icons/busStop.ico'),
-                                        scaledSize: new google.maps.Size(70,70)
-                                    }}
-                                />
-                            )}
+                    <GlobalMap 
+                        center={center}
+                        map={map}
+                        setMap={setMap}
+                        onLoadFunction={onLoadFunction}
+                        options={{zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}}
+                        
+                        markers={markers}
+                        pinClickHandler={pinClickHandler}
+                        icon={'./icons/busStop.ico'}
 
-                        </div> 
+                        busesData={tableData}
+                        />
 
-                    </GoogleMap>
                 </div>
 
                 <div id='stationsMapControllers' style={{height: "50vh"}} 
