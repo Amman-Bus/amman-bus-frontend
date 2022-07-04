@@ -1,11 +1,7 @@
-import React, { useRef, useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import { 
     GoogleMap, 
-    LoadScript, 
-    useJsApiLoader,
     Marker,
-    Autocomplete, 
-    DirectionsRenderer
 } from '@react-google-maps/api'
 import busData from '../../../public/json/busData.json'
 
@@ -18,9 +14,6 @@ function Stations(props) {
 
     const tableHeaders = ["Station ID", "Station Name", "Crossed Routes' IDs"]
     const tableData = busData.stations
-
-    const { isLoaded } = useJsApiLoader({googleMapsApiKey: props.API_KEY})
-    if (!isLoaded) {return <div>Loading...</div>}
 
 
     function addMarker(lat, lng) {
@@ -37,11 +30,6 @@ function Stations(props) {
         const allMarkers = tableData.map(obj => {return {lat: obj['Location'].lat, lng: obj['Location'].lng}})
         setMarkers(allMarkers)
     }
-
-    // function mapClickHandler(latlng) {
-    //     setCenter({lat:latlng.lat(), lng:latlng.lng(), zoom:15})
-    //     addMarker(latlng.lat(), latlng.lng())
-    // }
 
     function displayStation(lat, lng) {
         document.querySelector('#stationsMap').scrollIntoView({behavior: 'smooth'})

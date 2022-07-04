@@ -1,11 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { 
     GoogleMap, 
-    LoadScript, 
-    useJsApiLoader,
     Marker,
-    Autocomplete, 
-    DirectionsRenderer
 } from '@react-google-maps/api'
 import busData from '../../../public/json/busData.json'
 
@@ -28,9 +24,6 @@ function Planning(props) {
     const activeBGColor = "bg-secondary-top"
 
     const stationsData = busData.stations
-
-    const { isLoaded } = useJsApiLoader({googleMapsApiKey: props.API_KEY})
-    if (!isLoaded) {return <div>Loading...</div>}
 
     function selectingPinHandler(btnID) {
         if (btnID == 'pickUp-button') {

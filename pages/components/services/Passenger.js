@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import Planning from '../passengerComps/Planning'
 import AvailablePlans from '../passengerComps/AvailablePlans'
 import MyTrip from '../passengerComps/MyTrip'
