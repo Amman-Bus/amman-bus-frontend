@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import busData from '../../../public/json/busData.json'
-import GlobalMap from '../pageStructure/GlobalMap'
+import { 
+    GoogleMap, 
+    Marker,
+} from '@react-google-maps/api'
 
 
 function Timelines(props) {
@@ -11,6 +14,9 @@ function Timelines(props) {
 
     const tableHeaders = ["Bus ID", "Route ID", "Departure", "Arrival", "Capacity", "Rating"]
     const tableData = busData.buses
+
+    const options={zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}
+    const icon = './icons/busStop.ico'
     
     function addMarker(lat, lng) {
         const newMarker = {
@@ -98,20 +104,29 @@ function Timelines(props) {
 
                 <div id='busessMap' style={{height: "70vh", width: "70vh"}}
                 className='border-2 border-primary-top drop-shadow bg-secondary-top rounded-3xl flex justify-center items-center overflow-hidden'>
-                    
-                    <GlobalMap 
-                        center={center}
-                        map={map}
-                        setMap={setMap}
-                        onLoadFunction={onLoadFunction}
-                        options={{zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}}
-                        
-                        markers={markers}
-                        pinClickHandler={pinClickHandler}
-                        icon={'./icons/busStop.ico'}
 
-                        busesData={tableData}
-                        />
+                    <GoogleMap
+                        mapContainerStyle={{width:'100%', height:'100%'}}
+                        center={{lat: center.lat, lng: center.lng}}
+                        zoom={center.zoom}
+                        onLoad={()=>{onLoadFunction(tableData)}}
+                        options={options}
+                        >
+                        
+                            <div>
+                                {markers.map(bus => 
+                                    <Marker
+                                        position={{lat: bus["Location"].lat, lng: bus["Location"].lng}}
+                                        onClick={()=>{pinClickHandler(bus)}}    
+                                        icon={{
+                                            url: (icon),
+                                            scaledSize: new google.maps.Size(70,70)
+                                        }}
+                                    />
+                                )}
+                            </div>
+
+                        </GoogleMap>
 
                 </div>
 
