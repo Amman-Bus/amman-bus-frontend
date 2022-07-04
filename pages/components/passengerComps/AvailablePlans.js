@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { 
     GoogleMap, 
-    useJsApiLoader,
     Marker,
 } from '@react-google-maps/api'
 import busData from '../../../public/json/busData.json'
@@ -15,9 +14,6 @@ function AvailablePlans(props) {
 
     const busesData = busData.buses
     const [selectedBus, setSelectedBus] = useState(busesData[0])
-
-    const { isLoaded } = useJsApiLoader({googleMapsApiKey: props.API_KEY})
-    if (!isLoaded) {return <div>Loading...</div>}
 
     function pinClickHandler(bus) {
         setSelectedBus(bus)
