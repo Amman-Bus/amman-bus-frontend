@@ -10,15 +10,17 @@ function AvailablePlans(props) {
 
     const [center, setCenter] = useState({lat:31.952936314023113, lng:35.911021633699036, zoom:10})
     const [markers, setMarkers] = useState([])
-    const [map, setMap] = useState(/** @type google.maps.Map */ null)
 
     const busesData = busData.buses
     const [selectedBus, setSelectedBus] = useState(busesData[0])
     props.setSelectedBusObject(busesData[0])
 
-
     const options={zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}
     const icon = './icons/busStop.ico'
+
+    React.useEffect(() => {
+        displayAllBuses(busesData)
+    }, [])
 
     function pinClickHandler(bus) {
         setSelectedBus(bus)
@@ -85,7 +87,6 @@ function AvailablePlans(props) {
                         mapContainerStyle={{width:'100%', height:'100%'}}
                         center={{lat: center.lat, lng: center.lng}}
                         zoom={center.zoom}
-                        onLoad={()=>{displayAllBuses(busesData)}}
                         options={options}
                         >
                         
