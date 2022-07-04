@@ -16,7 +16,7 @@ function Timelines(props) {
     const [markers, setMarkers] = useState([])
     const [map, setMap] = useState(/** @type google.maps.Map */ null);
 
-    const tableHeaders = ["Bus ID", "Route ID", "Departure", "Arrival"]
+    const tableHeaders = ["Bus ID", "Route ID", "Departure", "Arrival", "Capacity", "Rating"]
     const tableData = busData.buses
 
     const { isLoaded } = useJsApiLoader({googleMapsApiKey: props.API_KEY})
@@ -74,7 +74,7 @@ function Timelines(props) {
                             tableData.map(obj => {
                                 return <tr>
                                     {
-                                        Object.keys(obj).slice(0, 4).map((key, index) => {
+                                        Object.keys(obj).slice(0, 6).map((key, index) => {
                                             if (key == "RouteID") {
                                                 return <td 
                                                 onClick={() => {document.querySelector('#divider3').scrollIntoView({behavior: 'smooth'})}}
@@ -87,6 +87,11 @@ function Timelines(props) {
                                                 className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
                                                 hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
                                                 >{obj[key]}</td>
+                                            } else if (key == "Ratings") {
+                                                return <td 
+                                                className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
+                                                hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
+                                                >{(obj[key].reduce((prev, curr) => prev + curr)/obj[key].length).toFixed(2)}</td>
                                             } else {
                                                 return <td className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
                                                 hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'

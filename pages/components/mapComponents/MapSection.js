@@ -89,8 +89,6 @@ function MapSection () {
     function selectingPinHandler(btnID) {
         if (btnID == 'origin-button') {
             if(selectingDestPin) {
-                // alert("Turn off the other button first !")
-                // return
                 setSelectingDestPin(false)
                 var element = document.getElementById("dest-button")
                 element.style.backgroundColor = "rgb(167 243 208)"

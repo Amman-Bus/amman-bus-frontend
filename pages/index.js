@@ -1,17 +1,23 @@
 import Head from 'next/head'
-import React from 'react'
-import Header from './components/pageStructure/Header'
-import MainPage from './components/pageStructure/MainPage'
-import Footer from './components/pageStructure/Footer'
-import SignIn from './components/authentication/SignIn'
+import React, {useState} from "react"
+import AccountCheck from './components/authentication/AccountCheck'
 
 
-function Home() {
-  
+function App() {
+
   const API_KEY = "AIzaSyCMl98QtnsYKsQ6PbhTowjVYmD0qHwFBVY"
+  
+  const [isAuthorized, setIsAuthorized] = useState(true)
+  // const [userType, setUserType] = useState('guest')
+  const [userType, setUserType] = useState('passenger')
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isSignUP, setIsSignUP] = useState(false)
+  const [isService, setIsService] = useState(true)
 
   return (
-    <div id="main" className='bg-tratiary-top w-full'>
+    <>
+    <div id="main" className='bg-tratiary-top w-full h-full'>
 
       <Head>
         <title>Amman Bus</title>
@@ -22,14 +28,23 @@ function Home() {
         <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Russo+One&display=swap" rel="stylesheet"/>
       </Head>
 
-      {/* <SignIn /> */}
-      
-      <Header />
-      <MainPage API_KEY={API_KEY}/>
-      <Footer />
+      <AccountCheck 
+          API_KEY={API_KEY} 
+          isLoggedIn={isLoggedIn} 
+          setIsLoggedIn={setIsLoggedIn}
+          isSignUP={isSignUP}
+          setIsSignUP={setIsSignUP}
+          isAuthorized={isAuthorized}
+          setIsAuthorized={setIsAuthorized}
+          userType={userType}
+          setUserType={setUserType}
+          isService={isService} 
+          setIsService={setIsService}
+       />
 
-    </div>
+      </div>
+    </>
   )
 }
 
-export default Home
+export default App

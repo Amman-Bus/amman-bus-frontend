@@ -2,9 +2,10 @@
   import { FaUser } from 'react-icons/fa';
 
 
-  function Header() {
+  function Header(props) {
 
     const [isAccountList, setIsAccountList] = useState(false)
+    const [logOutButtonVisible, setLogOutButtonVisible] = useState(false)
 
     const navItems = [
       ["Timelines", "divider1"], 
@@ -20,30 +21,44 @@
       var lastScroll = 0;
       const transformNone = "transform-none"
       const negativeTranslateYFull = "-translate-y-full"
-    
+      
+        const logOutButton = document.getElementById("logOutButton")
+        // if he is a user
+        if (props.isAuthorized) {
+          logOutButton.classList.remove("invisible")
+        }
+        // if he is a guest 
+        else {
+          logOutButton.classList.add("invisible")
+        }
+
+
       window.addEventListener("scroll", () => {
           const currentScroll = window.pageYOffset
           const header = document.getElementById("header")
-    
-          if (currentScroll <= 0) {
-            header.classList.remove(transformNone)
-            return
-          }
-    
-          // down
-          if (currentScroll > lastScroll && !header.classList.contains(negativeTranslateYFull)) {
-            header.classList.remove(transformNone);
-            header.classList.add(negativeTranslateYFull);
-            accountListPopper("close")
-          // up
-          } else if (currentScroll < lastScroll && header.classList.contains(negativeTranslateYFull)) {
-            header.classList.remove(negativeTranslateYFull);
-            header.classList.add(transformNone);
-          }
-          
-          lastScroll = currentScroll;
-        })
-    
+
+          try {
+        
+              if (currentScroll <= 0) {
+                header.classList.remove(transformNone)
+                return
+              }
+        
+              // down
+              if (currentScroll > lastScroll && !header.classList.contains(negativeTranslateYFull)) {
+                header.classList.remove(transformNone);
+                header.classList.add(negativeTranslateYFull);
+                accountListPopper("close")
+              // up
+              } else if (currentScroll < lastScroll && header.classList.contains(negativeTranslateYFull)) {
+                header.classList.remove(negativeTranslateYFull);
+                header.classList.add(transformNone);
+              }
+              
+              lastScroll = currentScroll;
+
+              } catch(e) {}
+          })
       })
     
     function accountListPopper(order) {
@@ -85,8 +100,39 @@
       }
     }
 
-    function servicesHandler() {
+    function logInHandler(e) {
+      e.preventDefault()
+      props.setIsLoggedIn(true)
+      props.setIsSignUP(false)
+    }
+    
+    function signUpHandler(e) {
+      e.preventDefault()
+      props.setIsLoggedIn(false)
+      props.setIsSignUP(true)
+    }
+
+    function logOutHandler(e) {
+      e.preventDefault()
       
+      // TODO: handle authentications
+      
+      props.setIsLoggedIn(true)
+      props.setIsSignUP(false)
+
+    }
+
+    function servicesHandler() {
+      if (props.isAuthorized) {
+        if (props.userType == "passenger") {
+          
+        } else {
+          
+        }
+      } else {
+        alert("You must be a logged-in user to access this page !")
+      }
+
     }
 
 
@@ -96,7 +142,8 @@
         <div id="header" className='transform-none top-0 flex justify-between m-0 bg-primary-top z-20
         items-center border-secondary-top border-b fixed w-full transition duration-500 ease-out h-r15'>
 
-          <button className='bg-primary-top h-full transition duration-300 ease-out hover:opacity-75 hover:translate-x-10 w-3/12'>
+          <button onClick={()=>{location.reload()}}
+          className='bg-primary-top h-full transition duration-300 ease-out hover:opacity-75 hover:translate-x-10 w-3/12'>
             <img src='./images/logo1.png' alt='logo' className='h-full'/>
           </button>
 
@@ -136,8 +183,19 @@
 
         <div id='accountList' className='fixed bg-transparent w-32  right-3 flex flex-col text-lg font-bold text-tratiary-top
         transition -translate-y-full duration-500 ease-out z-10'>
-          {["Sign up", "Log in"].map(title => <button className='bg-secondary-top p-2 m-1 rounded-xl z-10'>{title}</button>)}
-          <button className='bg-secondary-top p-2 m-1 rounded-xl z-10 invisible'>Log out</button>
+
+          <button onClick={(e)=>{logInHandler(e)}} 
+          className='bg-secondary-top p-2 m-1 rounded-xl z-10 hover:opacity-50 hover:scale-110 transition duration-500 ease-out'
+          >Log In</button>
+          
+          <button onClick={(e)=>{signUpHandler(e)}} 
+          className='bg-secondary-top p-2 m-1 rounded-xl z-10 hover:opacity-50 hover:scale-110 transition duration-500 ease-out'
+          >Sign Up</button>
+
+          <button onClick={(e)=>{logOutHandler(e)}} id='logOutButton'
+          className='bg-secondary-top p-2 m-1 rounded-xl z-10 hover:opacity-50 hover:scale-110 transition duration-500 ease-out'
+          >Log Out</button>
+          
         </div>
 
 
