@@ -10,6 +10,9 @@ function Passenger(props) {
     const [selectedDropOffPin, setSelectedDropOffPin] = useState([null, null, null])
     const [selectedBusObject, setSelectedBusObject] = useState(null)
 
+    const [value, setValue] = useState();
+    const [size, setSize] = useState(256);
+
     return(
         <div className="w-full py-28 flex flex-col justify-center items-center">
 
@@ -33,6 +36,10 @@ function Passenger(props) {
                 setSelectedDropOffPin={setSelectedDropOffPin}
                 selectedBusObject={selectedBusObject}
                 setSelectedBusObject={setSelectedBusObject}
+                value={value}
+                setValue={setValue}
+                size={size}
+                setSize={setSize}
                 />
 
             <img className='my-10 w-[10vw] h-[10vw] animate-arrows' src=".\images\arrow.png"/>
@@ -49,6 +56,10 @@ function Passenger(props) {
                 setUserType={props.setUserType}
                 isService={props.isService} 
                 setIsService={props.setIsService}
+                value={value}
+                setValue={setValue}
+                size={size}
+                setSize={setSize}
                 />
 
         </div>

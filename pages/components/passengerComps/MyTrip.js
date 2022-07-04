@@ -1,5 +1,7 @@
 import React from 'react'
 import busData from '../../../public/json/busData.json'
+// import QRCode from 'react-qr-code'
+import QRCode from "qrcode.react"
 
 
 function MyTrip(props) {
@@ -8,9 +10,16 @@ function MyTrip(props) {
 
     function downloadQRCode() {
         document.querySelector('#myTrip').scrollIntoView({behavior: 'smooth'})
-        const qrcode = document.getElementById('qrcode')
-
-        // TODO: create the QR-Code
+        const canvas = document.getElementById('qrcode')
+        const pngUrl = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+        let downloadLink = document.createElement("a");
+        downloadLink.href = pngUrl;
+        downloadLink.download = "trip code.png";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
          
     }
 
@@ -20,9 +29,19 @@ function MyTrip(props) {
         className='w-4/5 p-20 rounded-2xl shadow-2xl flex flex-col justify-center items-center'>
 
                 <div className='w-full text-4vw font-russo text-secondary-top pb-8 text-center'>
-                    My Plan</div>
+                    My Plan's QR-Code</div>
 
-                <div id='qrcode' className='w-[50vh] h-[50vh]'></div>
+                <div id='qrcodeContainer' className='w-[50vh] h-[50vh] flex justify-center items-center'>
+                    {props.value && (
+                        <QRCode
+                            id='qrcode'
+                            title="QR Code for your trip"
+                            value={props.value}
+                            size={props.size === '' ? 0 : props.size}
+                            includeMargin={true}
+                        />
+                    )}
+                </div>
                 
                 <button 
                 onClick={(e) => {

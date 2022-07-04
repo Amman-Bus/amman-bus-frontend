@@ -52,8 +52,7 @@ function AccountCheck(props){
                             setUserType={props.setUserType}
                             isService={props.isService} 
                             setIsService={props.setIsService}
-                            />
-                : 
+                            /> : 
                 
                 <MainPage 
                     API_KEY={props.API_KEY} 

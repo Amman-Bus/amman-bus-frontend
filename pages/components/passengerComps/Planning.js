@@ -10,7 +10,6 @@ function Planning(props) {
 
     const [center, setCenter] = useState({lat:31.952936314023113, lng:35.911021633699036, zoom:10})
     const [markers, setMarkers] = useState([])
-    const [map, setMap] = useState(/** @type google.maps.Map */ null)
 
     const [selectingPickUpPin, setSelectingPickUpPin] = useState(false)
     const [selectingDropOffPin, setSelectingDropOffPin] = useState(false)
@@ -27,6 +26,10 @@ function Planning(props) {
 
     const options={zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}
     const icon = './icons/busStop.ico'
+
+    React.useEffect(() => {
+        displayAllStations(stationsData)
+    }, [])
 
     function selectingPinHandler(btnID) {
         if (btnID == 'pickUp-button') {
@@ -164,7 +167,6 @@ function Planning(props) {
                         mapContainerStyle={{width:'100%', height:'100%'}}
                         center={{lat: center.lat, lng: center.lng}}
                         zoom={center.zoom}
-                        onLoad={()=>{displayAllStations(stationsData)}}
                         options={options}
                         >
                         
