@@ -5,20 +5,24 @@ import {
   useJsApiLoader,
 } from '@react-google-maps/api'
 
+
 function App() {
 
   // const REACT_APP_GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   // const REACT_APP_BACKEND_HEROKU_URL = process.env.REACT_APP_BACKEND_HEROKU_URL
   
   const REACT_APP_GOOGLE_MAPS_API_KEY='AIzaSyDz93ecGzjl2joSh6_vtYi4oQ4KvJ9MQRg'
-  const REACT_APP_BACKEND_HEROKU_URL='https://ammanbus-backend.herokuapp.com'
+  const REACT_APP_BACKEND_HEROKU_URL='https://ammanbus.herokuapp.com'
 
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [userType, setUserType] = useState('guest')
+  // const [userType, setUserType] = useState('driver')
+  // const [userType, setUserType] = useState('passenger')
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isSignUP, setIsSignUP] = useState(false)
 
+  // const [isService, setIsService] = useState(true)
   const [isService, setIsService] = useState(false)
 
   const { isLoaded } = useJsApiLoader({googleMapsApiKey: REACT_APP_GOOGLE_MAPS_API_KEY})

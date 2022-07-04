@@ -10,7 +10,6 @@ function Planning(props) {
 
     const [center, setCenter] = useState({lat:31.952936314023113, lng:35.911021633699036, zoom:10})
     const [markers, setMarkers] = useState([])
-    const [map, setMap] = useState(/** @type google.maps.Map */ null)
 
     const [selectingPickUpPin, setSelectingPickUpPin] = useState(false)
     const [selectingDropOffPin, setSelectingDropOffPin] = useState(false)
