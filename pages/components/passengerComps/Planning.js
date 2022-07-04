@@ -27,6 +27,10 @@ function Planning(props) {
     const options={zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}
     const icon = './icons/busStop.ico'
 
+    React.useEffect(() => {
+        displayAllStations(stationsData)
+    }, [])
+
     function selectingPinHandler(btnID) {
         if (btnID == 'pickUp-button') {
             if(selectingDropOffPin) {
@@ -163,7 +167,6 @@ function Planning(props) {
                         mapContainerStyle={{width:'100%', height:'100%'}}
                         center={{lat: center.lat, lng: center.lng}}
                         zoom={center.zoom}
-                        onLoad={()=>{displayAllStations(stationsData)}}
                         options={options}
                         >
                         
