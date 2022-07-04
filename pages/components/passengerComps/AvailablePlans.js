@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
-import { 
-    GoogleMap, 
-    Marker,
-} from '@react-google-maps/api'
 import busData from '../../../public/json/busData.json'
+import GlobalMap from '../pageStructure/GlobalMap'
 
 
 function AvailablePlans(props) {
@@ -19,8 +16,8 @@ function AvailablePlans(props) {
         setSelectedBus(bus)
     }
 
-    function displayAllBuses() {
-        setMarkers(busesData)
+    function displayAllBuses(data) {
+        setMarkers(data)
     }
 
     function submissiomHandler(e) {
@@ -74,37 +71,19 @@ function AvailablePlans(props) {
 
                 <div id='availableBusesTracker' style={{height: "50vh", width: "100%"}}
                 className='my-5 border-2 border-secondary-top rounded-3xl flex justify-center items-center overflow-hidden'>
-                    <GoogleMap
-                        mapContainerStyle={{width:'100%', height:'100%'}}
-                        center={{lat: center.lat, lng: center.lng}}
-                        zoom={center.zoom}
-                        onLoad={map => {
-                            setMap(map)
-                            displayAllBuses()
-                        }}
-                        options={{
-                            zoomControl: false,
-                            streetViewControl: false,
-                            mapTypeControl: false,
-                            fullscreenControl: false
-                        }}
-                    >
-                    
-                        <div id='markers'>
-                            {markers.map(bus => 
-                                <Marker
-                                    position={{lat: bus["Location"].lat, lng: bus["Location"].lng}}
-                                    onClick={e => pinClickHandler(bus)}
-                                    icon={{
-                                        url: ('./icons/busStop.ico'),
-                                        scaledSize: new google.maps.Size(70,70)
-                                    }}
-                                />
-                            )}
+                    <GlobalMap 
+                        center={center}
+                        map={map}
+                        setMap={setMap}
+                        onLoadFunction={displayAllBuses}
+                        options={{zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}}
+                        
+                        markers={markers}
+                        pinClickHandler={pinClickHandler}
+                        icon={'./icons/busStop.ico'}
 
-                        </div> 
-
-                    </GoogleMap>
+                        busesData={busesData}
+                        />
                 </div>
                 
                 <button 

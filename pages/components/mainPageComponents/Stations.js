@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
-import { 
-    GoogleMap, 
-    Marker,
-} from '@react-google-maps/api'
 import busData from '../../../public/json/busData.json'
+import GlobalMap from '../pageStructure/GlobalMap'
 
 
 function Stations(props) {
@@ -18,8 +15,7 @@ function Stations(props) {
 
     function addMarker(lat, lng) {
         const newMarker = {
-            lat: lat,
-            lng: lng,
+            "Location": {"lat": lat, "lng": lng}
         }
         setMarkers([...markers, newMarker])
     }
@@ -27,8 +23,7 @@ function Stations(props) {
     function clearMarkers() {setMarkers([])}
 
     function displayAllStations() {
-        const allMarkers = tableData.map(obj => {return {lat: obj['Location'].lat, lng: obj['Location'].lng}})
-        setMarkers(allMarkers)
+        setMarkers(tableData)
     }
 
     function displayStation(lat, lng) {
@@ -37,6 +32,11 @@ function Stations(props) {
         addMarker(lat, lng)
     }
 
+    function onLoadFunction(data) {}
+
+    function pinClickHandler(marker) {
+        alert(marker.latLng)
+    }
 
     return (
         <div id='section2' className='bg-transparent w-full h-fit flex flex-col
@@ -98,36 +98,21 @@ function Stations(props) {
 
                 <div id='stationsMap' style={{height: "70vh", width: "70vh"}}
                 className='border-2 border-primary-top drop-shadow bg-secondary-top rounded-3xl flex justify-center items-center overflow-hidden'>
-                    <GoogleMap
-                        mapContainerStyle={{width:'100%', height:'100%'}}
-                        center={{lat: center.lat, lng: center.lng}}
-                        zoom={center.zoom}
-                        onLoad={map => setMap(map)}
-                        // onClick={(e) => mapClickHandler(e.latLng)}
-                        options={{
-                            zoomControl: false,
-                            streetViewControl: false,
-                            mapTypeControl: false,
-                            fullscreenControl: false
-                        }}
-                    >
                     
-                        <div id='markers'>
-                            {markers.map(marker => 
-                                <Marker
-                                    position={{lat: marker.lat, lng: marker.lng}}
-                                    label={marker.label}
-                                    onClick={(e) => alert(e.latLng)}
-                                    icon={{
-                                        url: ('./icons/busStop.ico'),
-                                        scaledSize: new google.maps.Size(70,70)
-                                    }}
-                                />
-                            )}
+                    <GlobalMap 
+                        center={center}
+                        map={map}
+                        setMap={setMap}
+                        onLoadFunction={onLoadFunction}
+                        options={{zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}}
+                        
+                        markers={markers}
+                        pinClickHandler={pinClickHandler}
+                        icon={'./icons/busStop.ico'}
 
-                        </div> 
+                        busesData={tableData}
+                        />
 
-                    </GoogleMap>
                 </div>
 
                 <div id='stationsMapControllers' style={{height: "50vh"}} 
