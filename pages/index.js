@@ -6,14 +6,15 @@ import AccountCheck from './components/authentication/AccountCheck'
 function App() {
 
   const API_KEY = "AIzaSyCMl98QtnsYKsQ6PbhTowjVYmD0qHwFBVY"
+  const BACKEND_HEROKU_URL = "https://ammanbus-backend.herokuapp.com"
   
-  const [isAuthorized, setIsAuthorized] = useState(true)
-  // const [userType, setUserType] = useState('guest')
-  const [userType, setUserType] = useState('passenger')
+  const [isAuthorized, setIsAuthorized] = useState(false)
+  const [userType, setUserType] = useState('guest')
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isSignUP, setIsSignUP] = useState(false)
-  const [isService, setIsService] = useState(true)
+
+  const [isService, setIsService] = useState(false)
 
   return (
     <>
@@ -30,6 +31,7 @@ function App() {
 
       <AccountCheck 
           API_KEY={API_KEY} 
+          BACKEND_HEROKU_URL={BACKEND_HEROKU_URL}
           isLoggedIn={isLoggedIn} 
           setIsLoggedIn={setIsLoggedIn}
           isSignUP={isSignUP}

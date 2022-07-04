@@ -5,7 +5,6 @@
   function Header(props) {
 
     const [isAccountList, setIsAccountList] = useState(false)
-    const [logOutButtonVisible, setLogOutButtonVisible] = useState(false)
 
     const navItems = [
       ["Timelines", "divider1"], 
@@ -22,15 +21,32 @@
       const transformNone = "transform-none"
       const negativeTranslateYFull = "-translate-y-full"
       
-        const logOutButton = document.getElementById("logOutButton")
-        // if he is a user
-        if (props.isAuthorized) {
-          logOutButton.classList.remove("invisible")
-        }
-        // if he is a guest 
-        else {
-          logOutButton.classList.add("invisible")
-        }
+      const logInButton = document.getElementById("logInButton")
+      const signUpButton = document.getElementById("signUpButton")
+      const logOutButton = document.getElementById("logOutButton")
+      
+      // if he is a user
+      if (props.isAuthorized) {
+        logInButton.classList.add("invisible")
+        logInButton.classList.add("absolute")
+
+        signUpButton.classList.add("invisible")
+        signUpButton.classList.add("absolute")
+        
+        logOutButton.classList.remove("invisible")
+        logOutButton.classList.remove("absolute")
+      }
+      // if he is a guest 
+      else {
+        logInButton.classList.remove("invisible")
+        logInButton.classList.remove("absolute")
+
+        signUpButton.classList.remove("invisible")
+        signUpButton.classList.remove("absolute")
+        
+        logOutButton.classList.add("invisible")
+        logOutButton.classList.add("absolute")
+      }
 
 
       window.addEventListener("scroll", () => {
@@ -116,18 +132,21 @@
       e.preventDefault()
       
       // TODO: handle authentications
-      
-      props.setIsLoggedIn(true)
-      props.setIsSignUP(false)
-
+      if (true) {
+        props.setIsLoggedIn(true)
+        props.setIsSignUP(false)
+        props.setIsAuthorized(false)
+        props.setUserType('guest') 
+      }
     }
 
     function servicesHandler() {
       if (props.isAuthorized) {
+        props.setIsService(true)
         if (props.userType == "passenger") {
-          
+          props.setUserType("passenger")
         } else {
-          
+          props.setUserType("driver")
         }
       } else {
         alert("You must be a logged-in user to access this page !")
@@ -184,11 +203,11 @@
         <div id='accountList' className='fixed bg-transparent w-32  right-3 flex flex-col text-lg font-bold text-tratiary-top
         transition -translate-y-full duration-500 ease-out z-10'>
 
-          <button onClick={(e)=>{logInHandler(e)}} 
+          <button onClick={(e)=>{logInHandler(e)}} id='logInButton'
           className='bg-secondary-top p-2 m-1 rounded-xl z-10 hover:opacity-50 hover:scale-110 transition duration-500 ease-out'
           >Log In</button>
           
-          <button onClick={(e)=>{signUpHandler(e)}} 
+          <button onClick={(e)=>{signUpHandler(e)}} id='signUpButton'
           className='bg-secondary-top p-2 m-1 rounded-xl z-10 hover:opacity-50 hover:scale-110 transition duration-500 ease-out'
           >Sign Up</button>
 

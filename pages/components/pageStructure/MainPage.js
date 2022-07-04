@@ -9,6 +9,7 @@ function MainPage(props){
     return(
         <div className='w-full h-fit'>
             <Header
+                BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
                 isLoggedIn={props.isLoggedIn} 
                 setIsLoggedIn={props.setIsLoggedIn}
                 isSignUP={props.isSignUP}
@@ -22,6 +23,7 @@ function MainPage(props){
                 />
             <HomePage 
                 API_KEY={props.API_KEY} 
+                BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
                 isLoggedIn={props.isLoggedIn} 
                 setIsLoggedIn={props.setIsLoggedIn}
                 isSignUP={props.isSignUP}

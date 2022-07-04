@@ -7,7 +7,7 @@
             "Arrival": "09:00 AM",
             "Capacity": "20",
             "Ratings": [4.3, 3.5, 5, 5, 4.9, 5, 3],
-            "Location": {"lat": null, "lng": null}
+            "Location": {"lat": 31.963422390544984,"lng": 35.9614181169442}
         },
         {
             "BusID": "102", 
@@ -16,7 +16,7 @@
             "Arrival": "09:30 AM",
             "Capacity": "20",
             "Ratings": [4.3, 3.5, 5, 5, 4.9, 5, 3],
-            "Location": {"lat": null, "lng": null}
+            "Location": {"lat": 31.945831295352086,"lng": 35.928585519071426}
         },
         {
             "BusID": "103", 
@@ -25,25 +25,7 @@
             "Arrival": "10:00 AM",
             "Capacity": "20",
             "Ratings": [4.3, 3.5, 5, 5, 4.9, 5, 3],
-            "Location": {"lat": null, "lng": null}
-        },
-        {
-            "BusID": "104", 
-            "RouteID": "102", 
-            "Departure": "08:00 AM", 
-            "Arrival": "09:30 AM",
-            "Capacity": "20",
-            "Ratings": [4.3, 3.5, 5, 5, 4.9, 5, 3],
-            "Location": {"lat": null, "lng": null}
-        },
-        {
-            "BusID": "105", 
-            "RouteID": "102", 
-            "Departure": "08:30 AM", 
-            "Arrival": "10:00 AM",
-            "Capacity": "20",
-            "Ratings": [4.3, 3.5, 5, 5, 4.9, 5, 3],
-            "Location": {"lat": null, "lng": null}
+            "Location": {"lat": 32.0207291978248,"lng": 35.84342509204209}
         }
     ],
 

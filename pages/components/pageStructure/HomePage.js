@@ -179,7 +179,10 @@ function HomePage(props) {
                     Buses' Timelines</div>
         </div>
 
-        <Timelines API_KEY={props.API_KEY}/>
+        <Timelines 
+            API_KEY={props.API_KEY}
+            BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
+            />
 
         <div id='divider2' style={{textShadow: "5px 5px 8px #FFF"}}  
             className='opacity-100 w-full h-fit flex justify-center items-center p-20'>
@@ -188,7 +191,10 @@ function HomePage(props) {
                 </div>
         </div>
 
-        <Stations API_KEY={props.API_KEY}/>
+        <Stations 
+            API_KEY={props.API_KEY}
+            BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
+            />
 
         <div id='divider3' style={{textShadow: "5px 5px 8px #FFF"}}  
             className='opacity-100 w-full h-fit flex justify-center items-center p-20'>
@@ -197,7 +203,9 @@ function HomePage(props) {
                 </div>
         </div>
 
-        <Routes/>
+        <Routes 
+            BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
+            />
 
         <div id='divider4' style={{textShadow: "5px 5px 8px #FFF"}}  
             className='opacity-100 w-full h-fit flex justify-center items-center p-20'>
@@ -206,7 +214,9 @@ function HomePage(props) {
                 </div>
         </div>
 
-        <Prices/>
+        <Prices
+            BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
+            />
 
         <div id='divider5' style={{textShadow: "5px 5px 8px #FFF"}}  
             className='opacity-100 w-full h-fit flex justify-center items-center p-20'>

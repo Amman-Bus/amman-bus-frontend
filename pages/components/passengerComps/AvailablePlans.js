@@ -16,83 +16,29 @@ function AvailablePlans(props) {
     const [markers, setMarkers] = useState([])
     const [map, setMap] = useState(/** @type google.maps.Map */ null)
 
-    const [selectingPickUpPin, setSelectingPickUpPin] = useState(false)
-    const [selectingDropOffPin, setSelectingDropOffPin] = useState(false)
-
-    const stationsData = busData.stations
+    const busesData = busData.buses
+    const [selectedBus, setSelectedBus] = useState(busesData[0])
 
     const { isLoaded } = useJsApiLoader({googleMapsApiKey: props.API_KEY})
     if (!isLoaded) {return <div>Loading...</div>}
 
-    function selectingPinHandler(btnID) {
-        if (btnID == 'pickUp-button') {
-            if(selectingDropOffPin) {
-                setSelectingDropOffPin(false)
-                const element = document.getElementById("dropOff-button")
-                element.classList.remove(activeColor)
-                element.classList.remove(activeBGColor)
-                element.classList.add(baseColor)
-                element.classList.add(baseBGColor)
-            }
-
-            if(selectingPickUpPin) {
-                setSelectingPickUpPin(false)
-                const element = document.getElementById(btnID)
-                element.classList.remove(activeColor)
-                element.classList.remove(activeBGColor)
-                element.classList.add(baseColor)
-                element.classList.add(baseBGColor)
-            } else {
-                setSelectingPickUpPin(true)
-                const element = document.getElementById(btnID)
-                element.classList.remove(baseColor)
-                element.classList.remove(baseBGColor)
-                element.classList.add(activeColor)
-                element.classList.add(activeBGColor)
-            }
-        } 
-        else {
-            if(selectingPickUpPin) {
-                setSelectingPickUpPin(false)
-                const element = document.getElementById("pickUp-button")
-                element.classList.remove(activeColor)
-                element.classList.remove(activeBGColor)
-                element.classList.add(baseColor)
-                element.classList.add(baseBGColor)
-            }
-
-            if(selectingDropOffPin) {
-                setSelectingDropOffPin(false)
-                const element = document.getElementById(btnID)
-                element.classList.remove(activeColor)
-                element.classList.remove(activeBGColor)
-                element.classList.add(baseColor)
-                element.classList.add(baseBGColor)
-            } else {
-                setSelectingDropOffPin(true)
-                const element = document.getElementById(btnID)
-                element.classList.remove(baseColor)
-                element.classList.remove(baseBGColor)
-                element.classList.add(activeColor)
-                element.classList.add(activeBGColor)
-            }
-        } 
+    function pinClickHandler(bus) {
+        setSelectedBus(bus)
     }
 
-    function pinClickHandler(marker) {
-        
+    function displayAllBuses() {
+        setMarkers(busesData)
     }
 
-    // function displayAllStations() {
-    //     const allMarkers = stationsData.map(obj => {
-    //         console.log(obj.Name)
-    //         return {
-    //             "lat": obj['Location'].lat, 
-    //             "lng": obj['Location'].lng, 
-    //             "name": obj['Name']}
-    //         })
-    //     setMarkers(allMarkers)
-    // }
+    function submissiomHandler(e) {
+        e.preventDefault()
+        document.querySelector('#myTrip').scrollIntoView({behavior: 'smooth'})
+        const qrcode = document.getElementById('qrcode')
+
+        // TODO: create the QR-Code
+         
+    }
+
 
     return(
 
@@ -100,7 +46,38 @@ function AvailablePlans(props) {
         className='w-4/5 p-20 rounded-2xl shadow-2xl flex flex-col justify-center items-center'>
 
                 <div className='w-full text-4vw font-russo text-secondary-top pb-8 text-center'>
-                    Available Buses</div>
+                    Available Buses
+                </div>
+
+                <div id='busInfo' className='w-full grid grid-cols-3 gap-3'>
+
+                    <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
+                        BusID: {selectedBus["BusID"]}
+                    </div>
+
+                    <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
+                        RouteID: {selectedBus["RouteID"]}
+                    </div>
+
+                    <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
+                        Departure: {selectedBus["Departure"]}
+                    </div>
+
+                    <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
+                        Arrival: {selectedBus["Arrival"]}
+                    </div>
+
+                    <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
+                        Capacity: {selectedBus["Capacity"]}
+                    </div>
+
+                    <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
+                        Ratings: {
+                            ((selectedBus["Ratings"].reduce((a,b)=>a+b))/selectedBus["Ratings"].length).toFixed(2)
+                        }
+                    </div>
+
+                </div>
 
                 <div id='availableBusesTracker' style={{height: "50vh", width: "100%"}}
                 className='my-5 border-2 border-secondary-top rounded-3xl flex justify-center items-center overflow-hidden'>
@@ -110,7 +87,7 @@ function AvailablePlans(props) {
                         zoom={center.zoom}
                         onLoad={map => {
                             setMap(map)
-                            // displayAllStations()
+                            displayAllBuses()
                         }}
                         options={{
                             zoomControl: false,
@@ -121,10 +98,10 @@ function AvailablePlans(props) {
                     >
                     
                         <div id='markers'>
-                            {markers.map(marker => 
+                            {markers.map(bus => 
                                 <Marker
-                                    position={{lat: marker.lat, lng: marker.lng}}
-                                    onClick={(e) => pinClickHandler(marker)}
+                                    position={{lat: bus["Location"].lat, lng: bus["Location"].lng}}
+                                    onClick={e => pinClickHandler(bus)}
                                     icon={{
                                         url: ('./icons/busStop.ico'),
                                         scaledSize: new google.maps.Size(70,70)
@@ -137,8 +114,13 @@ function AvailablePlans(props) {
                     </GoogleMap>
                 </div>
                 
-                <button className='w-fit font-bold rounded-2xl m-2 text-white bg-secondary-top px-4 py-2 shadow-md hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
-                    Confirm the bus
+                <button 
+                onClick={(e) => {
+                    e.preventDefault()
+                    submissiomHandler(e)
+                }} 
+                className='w-fit font-bold rounded-2xl m-2 text-white bg-secondary-top px-4 py-2 shadow-md hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
+                    Confirm payment
                 </button>
 
         </div>
