@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
+import busData from '../../../public/json/busData.json'
 import { 
     GoogleMap, 
     Marker,
 } from '@react-google-maps/api'
-import busData from '../../../public/json/busData.json'
 
 
 function AvailablePlans(props) {
@@ -15,12 +15,15 @@ function AvailablePlans(props) {
     const busesData = busData.buses
     const [selectedBus, setSelectedBus] = useState(busesData[0])
 
+    const options={zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}
+    const icon = './icons/busStop.ico'
+
     function pinClickHandler(bus) {
         setSelectedBus(bus)
     }
 
-    function displayAllBuses() {
-        setMarkers(busesData)
+    function displayAllBuses(data) {
+        setMarkers(data)
     }
 
     function submissiomHandler(e) {
@@ -74,37 +77,29 @@ function AvailablePlans(props) {
 
                 <div id='availableBusesTracker' style={{height: "50vh", width: "100%"}}
                 className='my-5 border-2 border-secondary-top rounded-3xl flex justify-center items-center overflow-hidden'>
+
                     <GoogleMap
                         mapContainerStyle={{width:'100%', height:'100%'}}
                         center={{lat: center.lat, lng: center.lng}}
                         zoom={center.zoom}
-                        onLoad={map => {
-                            setMap(map)
-                            displayAllBuses()
-                        }}
-                        options={{
-                            zoomControl: false,
-                            streetViewControl: false,
-                            mapTypeControl: false,
-                            fullscreenControl: false
-                        }}
-                    >
-                    
-                        <div id='markers'>
-                            {markers.map(bus => 
-                                <Marker
-                                    position={{lat: bus["Location"].lat, lng: bus["Location"].lng}}
-                                    onClick={e => pinClickHandler(bus)}
-                                    icon={{
-                                        url: ('./icons/busStop.ico'),
-                                        scaledSize: new google.maps.Size(70,70)
-                                    }}
-                                />
-                            )}
+                        onLoad={()=>{displayAllBuses(busesData)}}
+                        options={options}
+                        >
+                        
+                            <div>
+                                {markers.map(bus => 
+                                    <Marker
+                                        position={{lat: bus["Location"].lat, lng: bus["Location"].lng}}
+                                        onClick={()=>{pinClickHandler(bus)}}    
+                                        icon={{
+                                            url: (icon),
+                                            scaledSize: new google.maps.Size(70,70)
+                                        }}
+                                    />
+                                )}
+                            </div>
 
-                        </div> 
-
-                    </GoogleMap>
+                        </GoogleMap>
                 </div>
                 
                 <button 
