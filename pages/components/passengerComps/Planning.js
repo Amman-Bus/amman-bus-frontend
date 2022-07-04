@@ -100,7 +100,6 @@ function Planning(props) {
         }
     }
 
-
     function displayAllStations() {
         const allMarkers = stationsData.map(obj => {
             console.log(obj.Name)
@@ -110,6 +109,11 @@ function Planning(props) {
                 "name": obj['Name']}
             })
         setMarkers(allMarkers)
+    }
+
+    function submissiomHandler(e) {
+        e.preventDefault()
+        document.querySelector('#availablePlans').scrollIntoView({behavior: 'smooth'})
     }
 
     return(
@@ -200,7 +204,8 @@ function Planning(props) {
                     </GoogleMap>
                 </div>
                 
-                <button className='w-fit font-bold rounded-2xl m-2 text-white bg-secondary-top px-4 py-2 shadow-md hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
+                <button onClick={(e)=>{submissiomHandler(e)}}
+                className='w-fit font-bold rounded-2xl m-2 text-white bg-secondary-top px-4 py-2 shadow-md hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
                     Create plan
                 </button>
 

@@ -3,9 +3,10 @@ import busData from '../../../public/json/busData.json'
 import axios from "axios"
 
 
-function Routes() {
+function Routes(props) {
 
-    const BACKEND_URL = ""
+    const BACKEND_HEROKU_URL = props.BACKEND_HEROKU_URL
+
 
     const tableHeaders = ["Route ID", "Starts from", "Ends at", "Route Stations", "Duration", "Distance"]
     const tableData = busData.routes
@@ -16,7 +17,7 @@ function Routes() {
         // GET request using axios inside useEffect React hook
         const fetchData = async () => {
             try {
-                const {data: response} = await axios.get(BACKEND_URL)
+                const {data: response} = await axios.get(BACKEND_HEROKU_URL + "api/routes/")
                 var newData = []
                 response.forEach(function (route) {
                     // code
@@ -66,7 +67,7 @@ function Routes() {
 
                 <tbody>
                     {
-                        data.map(obj => {
+                        tableData.map(obj => {
                             return <tr>
                                 {
                                     Object.keys(obj).map((key, index) => {
