@@ -2,9 +2,7 @@ import Head from 'next/head'
 import React, {useState} from "react"
 import AccountCheck from './components/authentication/AccountCheck'
 import { 
-  GoogleMap, 
   useJsApiLoader,
-  Marker,
 } from '@react-google-maps/api'
 
 function App() {
