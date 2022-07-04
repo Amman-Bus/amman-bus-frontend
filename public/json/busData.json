@@ -5,6 +5,8 @@
             "RouteID": "101", 
             "Departure": "08:00 AM", 
             "Arrival": "09:00 AM",
+            "Capacity": "20",
+            "Ratings": [4.3, 3.5, 5, 5, 4.9, 5, 3],
             "Location": {"lat": null, "lng": null}
         },
         {
@@ -12,6 +14,8 @@
             "RouteID": "101", 
             "Departure": "08:30 AM", 
             "Arrival": "09:30 AM",
+            "Capacity": "20",
+            "Ratings": [4.3, 3.5, 5, 5, 4.9, 5, 3],
             "Location": {"lat": null, "lng": null}
         },
         {
@@ -19,6 +23,8 @@
             "RouteID": "101", 
             "Departure": "09:00 AM", 
             "Arrival": "10:00 AM",
+            "Capacity": "20",
+            "Ratings": [4.3, 3.5, 5, 5, 4.9, 5, 3],
             "Location": {"lat": null, "lng": null}
         },
         {
@@ -26,6 +32,8 @@
             "RouteID": "102", 
             "Departure": "08:00 AM", 
             "Arrival": "09:30 AM",
+            "Capacity": "20",
+            "Ratings": [4.3, 3.5, 5, 5, 4.9, 5, 3],
             "Location": {"lat": null, "lng": null}
         },
         {
@@ -33,6 +41,8 @@
             "RouteID": "102", 
             "Departure": "08:30 AM", 
             "Arrival": "10:00 AM",
+            "Capacity": "20",
+            "Ratings": [4.3, 3.5, 5, 5, 4.9, 5, 3],
             "Location": {"lat": null, "lng": null}
         }
     ],

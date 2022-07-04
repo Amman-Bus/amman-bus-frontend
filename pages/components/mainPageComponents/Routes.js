@@ -1,10 +1,51 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import busData from '../../../public/json/busData.json'
+import axios from "axios"
 
 
 function Routes() {
+
+    const BACKEND_URL = ""
+
     const tableHeaders = ["Route ID", "Starts from", "Ends at", "Route Stations", "Duration", "Distance"]
     const tableData = busData.routes
+
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        // GET request using axios inside useEffect React hook
+        const fetchData = async () => {
+            try {
+                const {data: response} = await axios.get(BACKEND_URL)
+                var newData = []
+                response.forEach(function (route) {
+                    // code
+                    var stations = []
+                    var total_time = 0
+                    var total_distance = 0
+                    for (const stationStop of  route.station_stops) {
+                        stations.push(stationStop.station.name)
+                        total_time+= stationStop.time_to_next_station
+                        total_distance+=stationStop.distance_to_next_station
+
+                    }
+                    newData.push({
+                        "route_name": route.name,
+                        "Starts": route.station_stops[0].station.name,
+                        "Ends": route.station_stops[route.station_stops.length -1].station.name,
+                        "Stations": stations,
+                        "Duration": total_time+"m",
+                        "Distance": total_distance/1000.0+"km"
+                    })
+                });
+                setData(newData);
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+        fetchData()
+    }, []);
+
 
     return (
         <div id='section3' className='bg-transparent w-full flex justify-center items-center 
@@ -25,7 +66,7 @@ function Routes() {
 
                 <tbody>
                     {
-                        tableData.map(obj => {
+                        data.map(obj => {
                             return <tr>
                                 {
                                     Object.keys(obj).map((key, index) => {
