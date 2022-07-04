@@ -1,7 +1,11 @@
 import Head from 'next/head'
 import React, {useState} from "react"
 import AccountCheck from './components/authentication/AccountCheck'
-
+import { 
+  GoogleMap, 
+  useJsApiLoader,
+  Marker,
+} from '@react-google-maps/api'
 
 function App() {
 
@@ -16,6 +20,10 @@ function App() {
 
   const [isService, setIsService] = useState(false)
 
+  const { isLoaded } = useJsApiLoader({googleMapsApiKey: API_KEY})
+  if (!isLoaded) {return <div>Loading...</div>}
+
+  
   return (
     <>
     <div id="main" className='bg-tratiary-top w-full h-full'>
