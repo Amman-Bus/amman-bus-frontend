@@ -13,39 +13,39 @@ function Routes(props) {
 
     const [data, setData] = useState([])
 
-    useEffect(() => {
-        // GET request using axios inside useEffect React hook
-        const fetchData = async () => {
-            try {
-                const {data: response} = await axios.get(BACKEND_HEROKU_URL + "api/routes/")
-                var newData = []
-                response.forEach(function (route) {
-                    // code
-                    var stations = []
-                    var total_time = 0
-                    var total_distance = 0
-                    for (const stationStop of  route.station_stops) {
-                        stations.push(stationStop.station.name)
-                        total_time+= stationStop.time_to_next_station
-                        total_distance+=stationStop.distance_to_next_station
+    // useEffect(() => {
+    //     // GET request using axios inside useEffect React hook
+    //     const fetchData = async () => {
+    //         try {
+    //             const {data: response} = await axios.get(BACKEND_HEROKU_URL + "api/routes/")
+    //             var newData = []
+    //             response.forEach(function (route) {
+    //                 // code
+    //                 var stations = []
+    //                 var total_time = 0
+    //                 var total_distance = 0
+    //                 for (const stationStop of  route.station_stops) {
+    //                     stations.push(stationStop.station.name)
+    //                     total_time+= stationStop.time_to_next_station
+    //                     total_distance+=stationStop.distance_to_next_station
 
-                    }
-                    newData.push({
-                        "route_name": route.name,
-                        "Starts": route.station_stops[0].station.name,
-                        "Ends": route.station_stops[route.station_stops.length -1].station.name,
-                        "Stations": stations,
-                        "Duration": total_time+"m",
-                        "Distance": total_distance/1000.0+"km"
-                    })
-                });
-                setData(newData);
-            } catch (error) {
-                console.error(error.message);
-            }
-        }
-        fetchData()
-    }, []);
+    //                 }
+    //                 newData.push({
+    //                     "route_name": route.name,
+    //                     "Starts": route.station_stops[0].station.name,
+    //                     "Ends": route.station_stops[route.station_stops.length -1].station.name,
+    //                     "Stations": stations,
+    //                     "Duration": total_time+"m",
+    //                     "Distance": total_distance/1000.0+"km"
+    //                 })
+    //             });
+    //             setData(newData);
+    //         } catch (error) {
+    //             console.error(error.message);
+    //         }
+    //     }
+    //     fetchData()
+    // }, []);
 
 
     return (

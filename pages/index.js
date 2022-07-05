@@ -27,7 +27,6 @@ function App() {
 
   const { isLoaded } = useJsApiLoader({googleMapsApiKey: REACT_APP_GOOGLE_MAPS_API_KEY})
   if (!isLoaded) {return <div>Loading...</div>}
-
   
   return (
     <>
