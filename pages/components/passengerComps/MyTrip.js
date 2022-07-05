@@ -56,6 +56,7 @@ function MyTrip(props) {
                 onClick={(e) => {
                     e.preventDefault()
                     props.setIsService(false)
+                    document.querySelector('#main').scrollIntoView({behavior: 'smooth'})
                 }}
                 className='w-fit font-bold rounded-2xl m-2 hover:text-white hover:bg-secondary-top px-4 py-2 shadow-md bg-white text-secondary-top transition duration-200 ease-in'>
                     Back to the main page

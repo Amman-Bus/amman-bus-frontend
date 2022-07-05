@@ -4,57 +4,46 @@ import axios from 'axios'
 
 function SignUp(props){
 
-  // React.useEffect(() => {
-    async function createUser() {
-
-      axios.defaults.xsrfCookieName = 'csrftoken'
-      axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-        
-      try {
-          axios.post(props.BACKEND_HEROKU_URL + "/admin/accounts/account/add/", {
-        "last_login": "2022-07-04T20:01:11.629555Z",
-        "is_superuser": true,
-        "username": "admin",
-        "is_staff": true,
-        "is_active": true,
-        "date_joined": "2022-07-04T19:43:00.523311Z",
-        "first_name": null,
-        "last_name": "",
-        "phone_number": "",
-        "email": "admin@admin.com",
-        "password": "pbkdf2_sha256$320000$VZPQ63okWJj8cw1VyzPteA$7/TzgtIyxgXnKDH46leW2F4dj7nWxz4npPG7ifNmRr8=",
-        "user_type": "",
-        "groups": [],
-        "user_permissions": []
-          })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          
-            // const {data: response} = await axios.get(BACKEND_HEROKU_URL + "api/routes/")
-
-          } catch (error) {
-            console.error(error.message);
-        }
-    }
-
-  // }, [])
-
   function logInHandler(e) {
     e.preventDefault()            
     props.setIsLoggedIn(true)
     props.setIsSignUP(false)
   }
 
-  function signUpSubmitHandler(e) {
+  async function signUpSubmitHandler(e) {
     e.preventDefault()
-    createUser()
+
+    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+    axios.defaults.xsrfCookieName = "csrftoken"
+
+    await axios.post('https://ammanbus.herokuapp.com/admin/login', {     
+        username: 'admin',
+        password: 'abcd1234'
+    }, {
+      withCredentials: true,
+      headers: {
+      'Content-Type': 'application/json',
+      // 'X-CSRFTOKEN': csrf_token,
+      },
+    })
+    .then(res => {console.log(res)}) 
+    .catch(err => {console.log(err)}) 
+
+    // await axios.post(props.BACKEND_HEROKU_URL + "/admin/accounts/account/add/", {
+    //   "username": "admin",
+    //   "first_name": "mustafa",
+    //   "last_name": "hasanat",
+    //   "phone_number": "0000",
+    //   "email": "m@m.com",
+    //   "password": "0000",
+    //   "user_type": "passenger",
+    // })
+    // .then(res => {console.log(res)}) 
+    // .catch(err => {console.log(err)}) 
 
 
-    if(true) {
+
+    if(false) {
       alert('Your account has been created successfully ! .. You\'ll be redirected to the log in page after closing this message.')  
       setTimeout(()=>{
         props.setIsLoggedIn(true)
@@ -101,12 +90,13 @@ function SignUp(props){
                 <div className='text-secondary-top mt-4 text-1vw'>Already have an account?</div>
                 <div className='text-secondary-top mt-4 text-15vw font-bold cursor-pointer hover:scale-110 hover:bg-secondary-top hover:text-white
                 transition duration-500 ease-out p-2 rounded-full' 
-                onClick={(e) => logInHandler(e)}>Sign In to your Account</div>
+                onClick={(e) => logInHandler(e)}>Log In to your Account</div>
 
                 <button onClick={(e)=>{
                     e.preventDefault()
                     props.setIsLoggedIn(false)
                     props.setIsSignUP(false)
+                    document.querySelector('#main').scrollIntoView({behavior: 'smooth'})
                 }}
                 className='w-fit font-bold rounded-2xl m-2 mt-10 text-white bg-secondary-top px-4 py-2 shadow-md hover:text-blue-400 hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
                     Back to the main page

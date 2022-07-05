@@ -1,5 +1,5 @@
-  import React, { useState } from 'react'
-  import { FaUser } from 'react-icons/fa';
+import React, { useState } from 'react'
+import { FaUser } from 'react-icons/fa';
 
 
   function Header(props) {
@@ -128,16 +128,13 @@
       props.setIsSignUP(true)
     }
 
-    function logOutHandler(e) {
+    function logOutHandler(e) {      
       e.preventDefault()
-      
-      // TODO: handle authentications
-      if (true) {
-        props.setIsLoggedIn(true)
-        props.setIsSignUP(false)
-        props.setIsAuthorized(false)
-        props.setUserType('guest') 
-      }
+      localStorage.setItem('currentUser', JSON.stringify({}))      
+      props.setIsLoggedIn(true)
+      props.setIsSignUP(false)
+      props.setIsAuthorized(false)
+      props.setUserType('guest') 
     }
 
     function servicesHandler() {

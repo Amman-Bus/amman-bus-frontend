@@ -34,6 +34,27 @@ function HomePage(props) {
   }
 
   React.useEffect(() => {
+
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    
+    if (Object.keys(currentUser).length !== 0) {
+      props.setIsLoggedIn(false)
+      props.setIsSignUP(false)
+      props.setIsAuthorized(true)
+      
+      const userType = currentUser["user_type"]
+      if(userType == "passenger") {
+          props.setUserType("passenger")
+      } else if(userType == "driver") {
+          props.setUserType("driver")
+      } else {
+          alert("there is a problem in the naming of the user type")
+      }
+
+    } else {
+      localStorage.setItem('currentUser', JSON.stringify({}))
+    }
+    
     const screenHeight = window.screen.height
 
     window.addEventListener('load', () => {
