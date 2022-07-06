@@ -1,43 +1,81 @@
 import React, { useState } from 'react'
-import busData from '../../../public/json/busData.json'
 import { 
     GoogleMap, 
     Marker,
 } from '@react-google-maps/api'
+import axios from 'axios'
 
 
 function AvailablePlans(props) {
 
     const [center, setCenter] = useState({lat:31.952936314023113, lng:35.911021633699036, zoom:10})
     const [markers, setMarkers] = useState([])
-
-    const busesData = busData.buses
-    const [selectedBus, setSelectedBus] = useState(busesData[0])
-    props.setSelectedBusObject(busesData[0])
+    const [selectedRoute, setSelectedRoute] = useState({})
+    const [selectedStation, setSelectedStation] = useState({})
 
     const options={zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}
     const icon = './icons/busStop.ico'
 
     React.useEffect(() => {
-        displayAllBuses(busesData)
     }, [])
 
-    function pinClickHandler(bus) {
-        setSelectedBus(bus)
-        props.setSelectedBusObject(bus)
-    }
+    async function fetchData() {
+        if(Object.keys(props.selectedPickUpPin).length === 0 || 
+            Object.keys(props.selectedDropOffPin).length === 0) {
+                alert("Please select a pick-up and drop-off station first")
+                return}
 
-    function displayAllBuses(data) {
-        setMarkers(data)
+        try {
+            await axios.get(
+                props.BACKEND_HEROKU_URL+"/api/find/" + 
+                props.selectedPickUpPin.id + '/' +
+                props.selectedDropOffPin.id 
+            ).then(res => {
+                try {
+                    setSelectedRoute({
+                        "path": res.data.paths[0].path,
+                        "distance": res.data.paths[0].distance,
+                        "route": {
+                            "route_name": res.data.paths[0].routes[0]['route_name'],
+                            "station_stops": res.data.paths[0].routes[0]['station_stops']
+                        }
+                    })                    
+                } catch (error) {
+                    alert("No routes found")
+                    console.log(error.message);
+                }
+        
+                setMarkers(selectedRoute['route']['station_stops'])
+            }).catch(err => {
+                console.log(err);
+            })
+            
+        } catch (error) {
+            console.error(error.message);
+        } 
     }
 
     function submissiomHandler(e) {
+        if(Object.keys(props.selectedPickUpPin).length === 0 || 
+            Object.keys(props.selectedDropOffPin).length === 0) {
+                alert("Please select a pick-up and drop-off station first")
+                return}
+
+        if(Object.keys(selectedStation).length === 0) {            
+            alert("Please select one of the displayed drop-off stations first")
+            return}
+    
         e.preventDefault()
         document.querySelector('#myTrip').scrollIntoView({behavior: 'smooth'})
-        const qrcode = document.getElementById('qrcode')
 
-        props.setValue(props.selectedBusObject['BusID']+props.selectedBusObject['RouteID'])
-        // TODO: save it in the database
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+
+        const name = currentUser.username
+        const from = props.selectedPickUpPin.name
+        const to = selectedStation.name
+
+        const qrData = [name, from, to].map(item=>item.toString()).join(', ')
+        props.setValue(qrData)
     }
 
 
@@ -47,36 +85,36 @@ function AvailablePlans(props) {
         className='w-4/5 p-20 rounded-2xl shadow-2xl flex flex-col justify-center items-center'>
 
                 <div className='w-full text-4vw font-russo text-secondary-top pb-8 text-center'>
-                    Available Buses
+                    Confirm your stop
                 </div>
+
+                <button 
+                onClick={(e) => {
+                    e.preventDefault()
+                    fetchData()
+                }} 
+                className='w-fit font-bold rounded-2xl m-2 text-white bg-secondary-top px-4 py-2 shadow-md hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
+                    Display all stops in your route
+                </button>
 
                 <div id='busInfo' className='w-full grid grid-cols-3 gap-3'>
 
                     <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
-                        BusID: {selectedBus["BusID"]}
+                        Station name:
+                    </div>
+
+                    <div className='col-span-2 my-1 font-bold text-[100%] text-secondary-top rounded-lg p-2 w-full text-center'>
+                        {selectedStation.name}
                     </div>
 
                     <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
-                        RouteID: {selectedBus["RouteID"]}
+                        Needed distance: 
                     </div>
 
-                    <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
-                        Departure: {selectedBus["Departure"]}
+                    <div className='col-span-2 my-1 font-bold text-[100%] text-secondary-top rounded-lg p-2 w-full text-center'>
+                        {selectedRoute['distance']}
                     </div>
-
-                    <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
-                        Arrival: {selectedBus["Arrival"]}
-                    </div>
-
-                    <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
-                        Capacity: {selectedBus["Capacity"]}
-                    </div>
-
-                    <div className='my-1 font-bold text-[80%] bg-secondary-top rounded-lg p-2 w-full text-center text-white'>
-                        Ratings: {
-                            ((selectedBus["Ratings"].reduce((a,b)=>a+b))/selectedBus["Ratings"].length).toFixed(2)
-                        }
-                    </div>
+                    
 
                 </div>
 
@@ -91,10 +129,14 @@ function AvailablePlans(props) {
                         >
                         
                             <div>
-                                {markers.map(bus => 
+                                {markers.map(station => 
                                     <Marker
-                                        position={{lat: bus["Location"].lat, lng: bus["Location"].lng}}
-                                        onClick={()=>{pinClickHandler(bus)}}    
+                                        position={{lat: station.station.lat, lng: station.station.lon}}
+                                        onClick={()=>{
+                                            setSelectedStation(station.station)
+                                            setCenter({lat: station.station.lat, lng: station.station.lon, zoom:15})
+                                            setMarkers([station])
+                                            }}    
                                         icon={{
                                             url: (icon),
                                             scaledSize: new google.maps.Size(70,70)

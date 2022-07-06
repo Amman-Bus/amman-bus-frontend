@@ -1,6 +1,5 @@
 import React from 'react'
 import Header from './Header'
-import Footer from './Footer'
 import HomePage from './HomePage'
 
 
@@ -35,7 +34,6 @@ function MainPage(props){
                 isService={props.isService} 
                 setIsService={props.setIsService}    
                 />
-            <Footer/>
         </div>
     )
 }

@@ -10,7 +10,6 @@ import { FaUser } from 'react-icons/fa';
       ["Timelines", "divider1"], 
       ["Stations", "divider2"],
       ["Routes", "divider3"], 
-      ["Prices", "divider4"],
       ["Services", "s"]
      ]
 
@@ -158,21 +157,21 @@ import { FaUser } from 'react-icons/fa';
             <img src='./images/logo1.png' alt='logo' className='h-full'/>
           </button>
 
-          <div className='flex bg-primary-top w-7/12 h-full items-center'>
+          <div className='flex bg-primary-top w-6/12 h-full items-center'>
             {navItems.map(item =>
                 {
                   if(item[1] !== "s") {
-                    return <div className='h-fit w-1/6 p-r2'>
-                        <button style={{fontSize: "100%"}} onClick={()=>{document.querySelector('#'+item[1]).scrollIntoView({behavior: 'smooth'})}}
-                        className='bg-secondary-top h-full w-full p-r8 text-tratiary-top font-bold 
+                    return <div className='h-fit w-full'>
+                        <button style={{fontSize: "1vw"}} onClick={()=>{document.querySelector('#'+item[1]).scrollIntoView({behavior: 'smooth'})}}
+                        className='bg-secondary-top h-full w-8/12 p-r8 text-tratiary-top font-bold 
                         transition duration-300 ease-out hover:-skew-y-6 hover:scale-130 hover:bg-primary-top 
                         hover:text-secondary-top rounded-lg z-20'>
                           {item[0]}</button>
                       </div>
                     } else {
-                      return <div className='h-fit w-1/6 p-r2'>
-                        <button style={{fontSize: "100%"}} onClick={servicesHandler}
-                        className='bg-secondary-top h-full w-full p-r8 text-tratiary-top font-bold 
+                      return <div className='h-fit w-full'>
+                        <button style={{fontSize: "1vw"}} onClick={servicesHandler}
+                        className='bg-secondary-top h-full w-8/12 p-r8 text-tratiary-top font-bold 
                         transition duration-300 ease-out hover:-skew-y-6 hover:scale-130 hover:bg-primary-top 
                         hover:text-secondary-top rounded-lg z-20'>
                           {item[0]}</button>
