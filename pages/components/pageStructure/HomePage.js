@@ -33,28 +33,33 @@ function HomePage(props) {
 
   React.useEffect(() => {
 
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    const currentUser = localStorage.getItem('currentUser')
     
-    if (typeof currentUser === 'object' && currentUser !== null) {
-      if (Object.keys(currentUser).length !== 0) {
-        props.setIsLoggedIn(false)
-        props.setIsSignUP(false)
-        props.setIsAuthorized(true)
-        
-        const userType = currentUser["user_type"]
-        if(userType == "passenger") {
-            props.setUserType("passenger")
-        } else if(userType == "driver") {
-            props.setUserType("driver")
-        } else {
-            alert("there is a problem in the naming of the user type")
+    // if (typeof currentUser === 'object' && currentUser !== null) {
+    try {
+      props.setIsLoggedIn(false)
+      props.setIsSignUP(false)
+      
+      if(currentUser !== null) {
+        if (Object.keys(currentUser).length !== 0) {
+          props.setIsAuthorized(true)
+          
+          const userType = currentUser["user_type"]
+          if(userType == "passenger") {
+              props.setUserType("passenger")
+          } else if(userType == "driver") {
+              props.setUserType("driver")
+          } else {
+          }
         }
-  
       } else {
         localStorage.setItem('currentUser', JSON.stringify({}))
+        props.setIsAuthorized(false)
       }
-    } else {
-      alert("there is a problem in the type of the object")
+
+    } catch(e) {
+      alert(e.message)
+      localStorage.setItem('currentUser', JSON.stringify({}))
     }
     
     const screenHeight = window.screen.height
