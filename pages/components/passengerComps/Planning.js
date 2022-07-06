@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react'
-import busData from '../../../public/json/busData.json'
 import { 
     GoogleMap, 
     Marker,
@@ -9,7 +8,6 @@ import {
 function Planning(props) {
 
     const [center, setCenter] = useState({lat:31.952936314023113, lng:35.911021633699036, zoom:10})
-    const [markers, setMarkers] = useState([])
 
     const [selectingPickUpPin, setSelectingPickUpPin] = useState(false)
     const [selectingDropOffPin, setSelectingDropOffPin] = useState(false)
@@ -22,14 +20,8 @@ function Planning(props) {
     const activeColor = "text-white"
     const activeBGColor = "bg-secondary-top"
 
-    const stationsData = busData.stations
-
     const options={zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}
     const icon = './icons/busStop.ico'
-
-    React.useEffect(() => {
-        displayAllStations(stationsData)
-    }, [])
 
     function selectingPinHandler(btnID) {
         if (btnID == 'pickUp-button') {
@@ -88,23 +80,16 @@ function Planning(props) {
 
     function pinClickHandler(marker) {
         if (selectingPickUpPin) {
-            props.setSelectedPickUpPin([marker.lat, marker.lng, marker.Name])
-            document.getElementById("pickUpStationField").value = marker.Name
+            props.setSelectedPickUpPin(marker)
+            setCenter({lat: marker.lat, lng: marker.lon, zoom:15})
+            document.getElementById("pickUpStationField").value = marker.name
         } else if (selectingDropOffPin) {
-            props.setSelectedDropOffPin([marker.lat, marker.lng, marker.Name])   
-            document.getElementById("dropOffStationField").value = marker.Name
+            props.setSelectedDropOffPin(marker)   
+            setCenter({lat: marker.lat, lng: marker.lon, zoom:15})
+            document.getElementById("dropOffStationField").value = marker.name
         } else {
             alert("Please select a pin first (click on one of the above buttons)")
         }
-    }
-
-    function displayAllStations(data) {
-        setMarkers(data)
-    }
-
-    function submissiomHandler(e) {
-        e.preventDefault()
-        document.querySelector('#availablePlans').scrollIntoView({behavior: 'smooth'})
     }
 
     return(
@@ -171,10 +156,10 @@ function Planning(props) {
                         >
                         
                             <div>
-                                {markers.map(bus => 
+                                {props.planningData.map(station => 
                                     <Marker
-                                        position={{lat: bus["Location"].lat, lng: bus["Location"].lng}}
-                                        onClick={()=>{pinClickHandler(bus)}}    
+                                        position={{lat: station.lat, lng: station.lon}}
+                                        onClick={()=>{pinClickHandler(station)}}    
                                         icon={{
                                             url: (icon),
                                             scaledSize: new google.maps.Size(70,70)
@@ -187,7 +172,15 @@ function Planning(props) {
 
                 </div>
                 
-                <button onClick={(e)=>{submissiomHandler(e)}}
+                <button onClick={(e)=>{
+                    e.preventDefault()
+                    if(Object.keys(props.selectedPickUpPin).length === 0 || 
+                        Object.keys(props.selectedDropOffPin).length === 0) {
+                        alert("Please select a pick-up and drop-off station first")
+                    } else {
+                        document.querySelector('#availablePlans').scrollIntoView({behavior: 'smooth'})
+                    }
+                }}
                 className='w-fit font-bold rounded-2xl m-2 text-white bg-secondary-top px-4 py-2 shadow-md hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
                     Create plan
                 </button>

@@ -2,16 +2,33 @@ import React, { useState } from 'react'
 import Planning from '../passengerComps/Planning'
 import AvailablePlans from '../passengerComps/AvailablePlans'
 import MyTrip from '../passengerComps/MyTrip'
+import busData from '../../../public/json/busData.json'
+import axios from "axios"
 
 
 function Passenger(props) {
 
-    const [selectedPickUpPin, setSelectedPickUpPin] = useState([null, null, null])
-    const [selectedDropOffPin, setSelectedDropOffPin] = useState([null, null, null])
-    const [selectedBusObject, setSelectedBusObject] = useState(null)
+    const [planningData, setPlanningData] = useState([])
+    const [busesData, setBusesData] = useState([])
 
-    const [value, setValue] = useState();
+    const [selectedPickUpPin, setSelectedPickUpPin] = useState({})
+    const [selectedDropOffPin, setSelectedDropOffPin] = useState({})
+
+    const [value, setValue] = useState('');
     const [size, setSize] = useState(256);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const {data: response} = await axios.get(props.BACKEND_HEROKU_URL + "/api/stations/")
+                setPlanningData(response)
+            } catch(error) {
+                console.error(error.message)
+            }
+        }
+        fetchData()
+
+    }, []);
 
     return(
         <div className="w-full py-28 flex flex-col justify-center items-center">
@@ -20,9 +37,10 @@ function Passenger(props) {
                 API_KEY={props.API_KEY} 
                 BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
                 selectedPickUpPin={selectedPickUpPin}
-                setSelectedPickUpPin={setSelectedPickUpPin}
                 selectedDropOffPin={selectedDropOffPin}
+                setSelectedPickUpPin={setSelectedPickUpPin}
                 setSelectedDropOffPin={setSelectedDropOffPin}
+                planningData={planningData}
                 />
 
             <img className='my-10 w-[10vw] h-[10vw] animate-arrows' src=".\images\arrow.png"/>
@@ -30,36 +48,21 @@ function Passenger(props) {
             <AvailablePlans
                 API_KEY={props.API_KEY} 
                 BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
-                selectedPickUpPin={selectedPickUpPin}
-                setSelectedPickUpPin={setSelectedPickUpPin}
-                selectedDropOffPin={selectedDropOffPin}
-                setSelectedDropOffPin={setSelectedDropOffPin}
-                selectedBusObject={selectedBusObject}
-                setSelectedBusObject={setSelectedBusObject}
-                value={value}
                 setValue={setValue}
-                size={size}
-                setSize={setSize}
+                value={value}
+                selectedPickUpPin={selectedPickUpPin}
+                selectedDropOffPin={selectedDropOffPin}
+                busesData={busesData}
+                setBusesData={setBusesData}
                 />
 
             <img className='my-10 w-[10vw] h-[10vw] animate-arrows' src=".\images\arrow.png"/>
 
             <MyTrip
                 BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
-                selectedPickUpPin={selectedPickUpPin}
-                setSelectedPickUpPin={setSelectedPickUpPin}
-                selectedDropOffPin={selectedDropOffPin}
-                setSelectedDropOffPin={setSelectedDropOffPin}
-                selectedBusObject={selectedBusObject}
-                setSelectedBusObject={setSelectedBusObject}
-                userType={props.userType}
-                setUserType={props.setUserType}
-                isService={props.isService} 
                 setIsService={props.setIsService}
                 value={value}
-                setValue={setValue}
                 size={size}
-                setSize={setSize}
                 />
 
         </div>

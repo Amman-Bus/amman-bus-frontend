@@ -1,51 +1,46 @@
 import React, {useEffect, useState} from 'react'
-import busData from '../../../public/json/busData.json'
 import axios from "axios"
 
 
 function Routes(props) {
 
-    const BACKEND_HEROKU_URL = props.BACKEND_HEROKU_URL
-
-
-    const tableHeaders = ["Route ID", "Starts from", "Ends at", "Route Stations", "Duration", "Distance"]
-    const tableData = busData.routes
-
+    const tableHeaders = ["Route Name", "Route Stations", "Duration", "Distance", "Cost"]
     const [data, setData] = useState([])
 
-    // useEffect(() => {
-    //     // GET request using axios inside useEffect React hook
-    //     const fetchData = async () => {
-    //         try {
-    //             const {data: response} = await axios.get(BACKEND_HEROKU_URL + "api/routes/")
-    //             var newData = []
-    //             response.forEach(function (route) {
-    //                 // code
-    //                 var stations = []
-    //                 var total_time = 0
-    //                 var total_distance = 0
-    //                 for (const stationStop of  route.station_stops) {
-    //                     stations.push(stationStop.station.name)
-    //                     total_time+= stationStop.time_to_next_station
-    //                     total_distance+=stationStop.distance_to_next_station
+    useEffect(() => {
+        // GET request using axios inside useEffect React hook
+        const fetchData = async () => {
+            try {
+                const {data: response} = await axios.get(props.BACKEND_HEROKU_URL + "/api/routes/")
+                var newData = []
+                response.forEach(function (route) {
+                    // code
+                    var stations = []
+                    var total_time = 0
+                    var total_distance = 0
+                    for (const stationStop of  route.station_stops) {
+                        stations.push(stationStop.station.name)
+                        total_time+= parseInt(stationStop.time_to_next_station.substring(4,5))
+                        total_distance+=stationStop.distance_to_next_station
 
-    //                 }
-    //                 newData.push({
-    //                     "route_name": route.name,
-    //                     "Starts": route.station_stops[0].station.name,
-    //                     "Ends": route.station_stops[route.station_stops.length -1].station.name,
-    //                     "Stations": stations,
-    //                     "Duration": total_time+"m",
-    //                     "Distance": total_distance/1000.0+"km"
-    //                 })
-    //             });
-    //             setData(newData);
-    //         } catch (error) {
-    //             console.error(error.message);
-    //         }
-    //     }
-    //     fetchData()
-    // }, []);
+                    }
+                    newData.push({
+                        "route_name": route.name,
+                        // "Starts": route.station_stops[0].station.name,
+                        // "Ends": route.station_stops[route.station_stops.length -1].station.name,
+                        "Stations": stations,
+                        "Duration": total_time+"m",
+                        "Distance": total_distance/1000.0+" km",
+                        "Cost": ((total_distance/1000.0) * 0.15 ).toFixed(2) + " JOD"
+                    })
+                });
+                setData(newData);
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+        fetchData()
+    }, []);
 
 
     return (
@@ -67,34 +62,32 @@ function Routes(props) {
 
                 <tbody>
                     {
-                        tableData.map(obj => {
+                        data.map(obj => {
                             return <tr>
                                 {
                                     Object.keys(obj).map((key, index) => {
-                                        if(key != "Stations") {
-                                            return <td 
-                                            className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
-                                            hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
-                                            >{obj[key]}</td>
-                                        } else {
-                                            return <td 
-                                            className='text-15vw font-bold text-center text-tratiary-top opacity-75
-                                            hover:cursor-pointer hover:scale-105 transition duration-300'
-                                            >
-                                                <div className='w-full h-full grid grid-cols-3 gap-1'>
-                                                    {
-                                                        obj[key].map(subcell => {
-                                                            return(<di className='p-1 bg-primary-top rounded-lg hover:text-primary-top hover:bg-secondary-top'>
-                                                                {subcell}</di>)
-                                                        })
-                                                    }
-                                                </div>
-                                            </td>
+                                        if (key != "Starts" && key != "Ends") {
+                                            if(key != "Stations") {
+                                                return <td 
+                                                className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
+                                                hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
+                                                >{obj[key]}</td>
+                                            } else {
+                                                return <td 
+                                                className='text-[1vw] font-bold text-center text-tratiary-top opacity-75
+                                                hover:cursor-pointer hover:scale-105 transition duration-300'
+                                                >
+                                                    <div className='w-full h-full grid grid-cols-3 gap-1'>
+                                                        {
+                                                            obj[key].map(subcell => {
+                                                                return(<di className='p-1 bg-primary-top rounded-lg hover:text-primary-top hover:bg-secondary-top'>
+                                                                    {subcell}</di>)
+                                                            })
+                                                        }
+                                                    </div>
+                                                </td>
+                                            }
                                         }
-
-                                        // return <td className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
-                                        // hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
-                                        // >{row[key]}</td>
                                     })
                                 }
                             </tr>

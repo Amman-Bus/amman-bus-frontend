@@ -5,8 +5,9 @@ import { BsCameraVideoOffFill } from "react-icons/bs";
 
 function Driver(props) {
     
-    const [data, setData] = useState('No result')
+    const [data, setData] = useState('---,---,---')
     const [isCameraOpened, setIsCameraOpened] = useState(false)
+    const items = ["Passenger name: ", "Pick-up station: ", "Drop-off station: "]
     
     return(
         <div className="w-full py-28 flex flex-col justify-center items-center">
@@ -32,7 +33,10 @@ function Driver(props) {
                             isCameraOpened ?
                             <QrReader
                                 onResult={(result, error) => {
-                                    if(!!result) {setData(result?.text)}
+                                    if(!!result) {
+                                        setData(result?.text)
+                                        console.log(result.text)
+                                        }
                                     if(!!error) {console.info(error)}
                                 }}
                                 className='w-[50vh]'
@@ -46,16 +50,24 @@ function Driver(props) {
                 </div>
 
                 <div className='font-bold text-secondary-top'>
-                    {data}
+                    {
+                        data.split(',').map((item, index) => {
+                            return(
+                                <div className='text-left'>
+                                    {items[index]} {item} 
+                                </div>
+                            )
+                        })
+                    }
                 </div>
                 
                 <button 
-                onClick={(e) => {
-                    e.preventDefault()
+                onClick={() => {
+                    window.location.reload()
                     props.setIsService(false)
                     document.querySelector('#main').scrollIntoView({behavior: 'smooth'})
                 }}
-                className='w-fit font-bold rounded-2xl m-2 hover:text-white hover:bg-secondary-top px-4 py-2 shadow-md bg-white text-secondary-top transition duration-200 ease-in'>
+                className='mt-20 w-fit font-bold rounded-2xl m-2 hover:text-white hover:bg-secondary-top px-4 py-2 shadow-md bg-white text-secondary-top transition duration-200 ease-in'>
                     Back to the main page
                 </button>
 

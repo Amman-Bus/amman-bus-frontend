@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Timelines from '../mainPageComponents/Timelines'
 import Stations from '../mainPageComponents/Stations'
 import Routes from '../mainPageComponents/Routes'
-import Prices from '../mainPageComponents/Prices'
 import DownArrows from '../mainPageComponents/DownArrows'
 import ContactUs from '../mainPageComponents/ContactUs'
 
@@ -19,7 +18,6 @@ function HomePage(props) {
   const featuresData = [
     [<RiMapPinTimeLine color='#075278' size={iconSize}/>, "Check the timeline", "Get access to the departure and arrival times for each bus."],
     [<IoBus color='#075278' size={iconSize}/>, "Track your bus", "Aquire a specific location for the bus you want to catch."],
-    [<RiMoneyDollarCircleFill color='#075278' size={iconSize}/>, "Check the costs", "Calculate exactly how much will the trip cost before leaving your house."],
     [<BsFillBookmarkPlusFill color='#075278' size={iconSize}/>, "Book your trip", "Register and pay in advance on your desired trip."]
   ]
 
@@ -73,12 +71,10 @@ function HomePage(props) {
       try {
         const map = document.getElementById('ammanMap')
         const caption = document.getElementById('caption')
-        // const slogan = document.getElementById('slogan')
         const section1 = document.getElementById('section1')
         const section2 = document.getElementById('section2')
         const section3 = document.getElementById('section3')
         const section4 = document.getElementById('section4')
-        // const section5 = document.getElementById('section5')
         const pageYOffset = window.scrollY
 
         const threshold = pageYOffset + screenHeight 
@@ -150,7 +146,7 @@ function HomePage(props) {
 
         <div id='downArrow' className='fixed bottom-5 right-5 transition duration-300 
         hover:translate-y-3 hover:cursor-pointer hover:opacity-75 z-50'
-        onClick={()=>{document.querySelector('#footer').scrollIntoView({behavior: 'smooth'})}}>
+        onClick={()=>{document.querySelector('#section5').scrollIntoView({behavior: 'smooth'})}}>
           <ImCircleDown color='#F55139' size={50}/>
         </div>
 
@@ -169,10 +165,10 @@ function HomePage(props) {
         
         </div>
 
-        <div id='features' className='w-full h-fit grid grid-cols-2 pt-32 pr-20 pl-20 gap-5'>
+        <div id='features' className='w-full h-fit flex justify-center items-center pt-32 flex-col'>
           {           
             featuresData.map(feature => {
-              return <div className='flex justify-center items-center border-4 border-bg-1 rounded-md opacity-80 p-5'>
+              return <div className='my-2 w-4/5 flex justify-center items-center border-4 border-bg-1 rounded-md opacity-80 p-5'>
               
                 <div className='rounded-full h-full w-1/3 flex justify-center items-center'>
                   {feature[0]}
@@ -225,17 +221,6 @@ function HomePage(props) {
         </div>
 
         <Routes 
-            BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
-            />
-
-        <div id='divider4' style={{textShadow: "5px 5px 8px #FFF"}}  
-            className='opacity-100 w-full h-fit flex justify-center items-center p-20'>
-                <div className='w-full font-bold text-primary-top text-4vw font-russo opacity-75 text-center leading-tight tracking-wider'>
-                Trips' Prices
-                </div>
-        </div>
-
-        <Prices
             BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
             />
 

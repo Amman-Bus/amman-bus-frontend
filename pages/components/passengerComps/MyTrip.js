@@ -1,12 +1,8 @@
-import React from 'react'
-import busData from '../../../public/json/busData.json'
-// import QRCode from 'react-qr-code'
+import React, {useState} from 'react'
 import QRCode from "qrcode.react"
 
 
 function MyTrip(props) {
-
-    const stationsData = busData.stations
 
     function downloadQRCode() {
         document.querySelector('#myTrip').scrollIntoView({behavior: 'smooth'})
@@ -20,7 +16,6 @@ function MyTrip(props) {
         document.body.appendChild(downloadLink);
         downloadLink.click();
         document.body.removeChild(downloadLink);
-         
     }
 
     return(
@@ -32,7 +27,7 @@ function MyTrip(props) {
                     My Plan's QR-Code</div>
 
                 <div id='qrcodeContainer' className='w-[50vh] h-[50vh] flex justify-center items-center'>
-                    {props.value && (
+                    {props.value != '' && (
                         <QRCode
                             id='qrcode'
                             title="QR Code for your trip"
@@ -42,7 +37,7 @@ function MyTrip(props) {
                         />
                     )}
                 </div>
-                
+
                 <button 
                 onClick={(e) => {
                     e.preventDefault()

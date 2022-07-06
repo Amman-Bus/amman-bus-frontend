@@ -4,6 +4,7 @@ import {
     GoogleMap, 
     Marker,
 } from '@react-google-maps/api'
+import axios from "axios"
 
 
 function Stations(props) {
@@ -12,15 +13,32 @@ function Stations(props) {
     const [markers, setMarkers] = useState([])
     const [map, setMap] = useState(/** @type google.maps.Map */ null);
 
-    const tableHeaders = ["Station ID", "Station Name", "Crossed Routes' IDs"]
+    const tableHeaders = ["Station ID", "Station Name"]
     const tableData = busData.stations
 
     const options={zoomControl: false, streetViewControl: false, mapTypeControl: false, fullscreenControl: false}
     const icon = './icons/busStop.ico'
 
-    function addMarker(lat, lng) {
+
+    const [data, setData] = useState([])
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const {data: response} = await axios.get(props.BACKEND_HEROKU_URL + "/api/stations/")
+                setData(response);
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+        fetchData()
+    }, []);
+
+
+    function addMarker(lat, lon) {
         const newMarker = {
-            "Location": {"lat": lat, "lng": lng}
+            "lat": lat, 
+            "lon": lon
         }
         setMarkers([...markers, newMarker])
     }
@@ -28,13 +46,13 @@ function Stations(props) {
     function clearMarkers() {setMarkers([])}
 
     function displayAllStations() {
-        setMarkers(tableData)
+        setMarkers(data)
     }
 
-    function displayStation(lat, lng) {
+    function displayStation(lat, lon) {
         document.querySelector('#stationsMap').scrollIntoView({behavior: 'smooth'})
-        setCenter({lat:lat, lng:lng, zoom:15})
-        addMarker(lat, lng)
+        setCenter({lat:lat, lng:lon, zoom:15})
+        addMarker(lat, lon)
     }
 
     function onLoadFunction(data) {}
@@ -64,33 +82,20 @@ function Stations(props) {
 
                     <tbody>
                         {
-                            tableData.map(obj => {
+                            data.map(obj => {
                                 return <tr>
-                                    {
-                                        Object.keys(obj).slice(0, 3).map((key, index) => {
-                                            if(key != "Routes") {
-                                                return <td 
-                                                onClick={() => {displayStation(obj["Location"].lat, obj["Location"].lng)}}
-                                                className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
-                                                hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
-                                                >{obj[key]}</td>
-                                            } else {
-                                                return <td 
-                                                className='text-15vw font-bold text-center text-tratiary-top opacity-75
-                                                hover:cursor-pointer hover:scale-105 transition duration-300'
-                                                >
-                                                    <div className='w-full h-full grid grid-cols-3 gap-1'>
-                                                        {
-                                                            obj[key].map(subcell => {
-                                                                return(<di className='p-1 bg-primary-top rounded-lg hover:text-primary-top hover:bg-secondary-top'>
-                                                                    {subcell}</di>)
-                                                            })
-                                                        }
-                                                    </div>
-                                                </td>
-                                            }    
-                                        })
-                                    }
+                                        <td 
+                                        onClick={() => displayStation(obj.lat, obj.lon)}
+                                        className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
+                                        hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
+                                        >{parseInt(obj["id"])+100}</td>
+
+                                        <td 
+                                        onClick={() => displayStation(obj.lat, obj.lon)}
+                                        className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
+                                        hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
+                                        >{obj["name"]}</td>
+
                                 </tr>
                             })
                         }
@@ -113,10 +118,10 @@ function Stations(props) {
                     >
                     
                         <div>
-                            {markers.map(bus => 
+                            {markers.map(station => 
                                 <Marker
-                                    position={{lat: bus["Location"].lat, lng: bus["Location"].lng}}
-                                    onClick={()=>{pinClickHandler(bus)}}    
+                                    position={{lat: station.lat, lng: station.lon}}
+                                    onClick={(e)=>{pinClickHandler(e)}}    
                                     icon={{
                                         url: (icon),
                                         scaledSize: new google.maps.Size(70,70)

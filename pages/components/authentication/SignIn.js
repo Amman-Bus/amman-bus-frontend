@@ -7,9 +7,6 @@ function SignIn (props){
     const email = useRef()
     const password = useRef()
 
-    // React.useEffect(() => {
-    // })
-
     function goToAdminPage(e) {
         e.preventDefault()
         window.open(props.BACKEND_HEROKU_URL + "/admin/", '_blank')
@@ -40,11 +37,6 @@ function SignIn (props){
         } else {
             alert("You have to select an account type")
         }
-
-        console.log(usersData)
-        console.log(enteredEmail)
-        console.log(enteredPassword)
-        console.log(userType)
 
         for (let index = 0; index < usersData.length; index++) {   
             if(

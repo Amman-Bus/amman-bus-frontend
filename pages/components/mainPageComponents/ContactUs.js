@@ -25,21 +25,21 @@ function ContactUs(props) {
                         <label style={{textShadow: "5px 5px 3px #000"}} 
                         className='w-full font-bold text-tratiary-top text-2vw pb-1'
                         htmlFor='contactName'>Name:</label>
-                        <input className='p-2 rounded-xl w-full font-bold drop-shadow-xl focus:bg-secondary-top focus:text-tratiary-top
+                        <input className='p-2 rounded-xl w-full font-bold drop-shadow-xl
                         cursor-pointer hover:scale-110 transition duration-500'
                         type='text' placeholder='Your name' id='contactName' required/>
 
                         <label style={{textShadow: "5px 5px 3px #000"}}
                         className='w-full font-bold text-tratiary-top text-2vw pb-1'
                         htmlFor='contactEmail'>Email:</label>
-                        <input className='p-2 rounded-xl w-full font-bold drop-shadow-xl focus:bg-secondary-top focus:text-tratiary-top
+                        <input className='p-2 rounded-xl w-full font-bold drop-shadow-xl 
                         cursor-pointer hover:scale-110 transition duration-500' 
                         type='email' placeholder='Your email address' id='contactEmail' required/>
 
                         <label style={{textShadow: "5px 5px 3px #000"}}
                         className='w-full font-bold text-tratiary-top text-2vw pb-1'
                         htmlFor='contactMessage'>Message</label>
-                        <input className='p-2 rounded-xl w-full font-bold drop-shadow-xl break-words focus:bg-secondary-top focus:text-tratiary-top
+                        <input className='p-2 rounded-xl w-full font-bold drop-shadow-xl break-words
                         cursor-pointer hover:scale-110 transition duration-500'
                         type='text' placeholder='Your message' id='contactMessage' required/>
 
