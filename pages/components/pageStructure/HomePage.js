@@ -33,23 +33,32 @@ function HomePage(props) {
 
   React.useEffect(() => {
 
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    const currentUser = localStorage.getItem('currentUser')
     
-    if (Object.keys(currentUser).length !== 0) {
+    // if (typeof currentUser === 'object' && currentUser !== null) {
+    try {
       props.setIsLoggedIn(false)
       props.setIsSignUP(false)
-      props.setIsAuthorized(true)
       
-      const userType = currentUser["user_type"]
-      if(userType == "passenger") {
-          props.setUserType("passenger")
-      } else if(userType == "driver") {
-          props.setUserType("driver")
+      if(currentUser !== null) {
+        if (Object.keys(currentUser).length !== 0) {
+          props.setIsAuthorized(true)
+          
+          const userType = currentUser["user_type"]
+          if(userType == "passenger") {
+              props.setUserType("passenger")
+          } else if(userType == "driver") {
+              props.setUserType("driver")
+          } else {
+          }
+        }
       } else {
-          alert("there is a problem in the naming of the user type")
+        localStorage.setItem('currentUser', JSON.stringify({}))
+        props.setIsAuthorized(false)
       }
 
-    } else {
+    } catch(e) {
+      alert(e.message)
       localStorage.setItem('currentUser', JSON.stringify({}))
     }
     
@@ -197,7 +206,6 @@ function HomePage(props) {
         </div>
 
         <Timelines 
-            API_KEY={props.API_KEY}
             BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
             />
 
@@ -209,7 +217,6 @@ function HomePage(props) {
         </div>
 
         <Stations 
-            API_KEY={props.API_KEY}
             BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
             />
 

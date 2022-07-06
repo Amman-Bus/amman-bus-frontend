@@ -20,10 +20,17 @@ function AvailablePlans(props) {
     }, [])
 
     async function fetchData() {
-        if(Object.keys(props.selectedPickUpPin).length === 0 || 
-            Object.keys(props.selectedDropOffPin).length === 0) {
-                alert("Please select a pick-up and drop-off station first")
-                return}
+        if (typeof props.selectedPickUpPin === 'object' && props.selectedPickUpPin !== null
+            && typeof props.selectedDropOffPin === 'object' && props.selectedDropOffPin !== null) {
+
+            if(Object.keys(props.selectedPickUpPin).length === 0 || 
+                Object.keys(props.selectedDropOffPin).length === 0) {
+                    alert("Please select a pick-up and drop-off station first")
+                    return}            
+        } else {
+            alert("Error in the type of the object")
+            return
+        }
 
         try {
             await axios.get(
@@ -56,14 +63,23 @@ function AvailablePlans(props) {
     }
 
     function submissiomHandler(e) {
-        if(Object.keys(props.selectedPickUpPin).length === 0 || 
-            Object.keys(props.selectedDropOffPin).length === 0) {
-                alert("Please select a pick-up and drop-off station first")
-                return}
+        if (typeof props.selectedPickUpPin === 'object' && props.selectedPickUpPin !== null
+            && typeof props.selectedDropOffPin === 'object' && props.selectedDropOffPin !== null
+            && typeof selectedStation === 'object' && selectedStation !== null) {
 
-        if(Object.keys(selectedStation).length === 0) {            
-            alert("Please select one of the displayed drop-off stations first")
-            return}
+            if(Object.keys(props.selectedPickUpPin).length === 0 || 
+                Object.keys(props.selectedDropOffPin).length === 0) {
+                    alert("Please select a pick-up and drop-off station first")
+                    return}
+    
+            if(Object.keys(selectedStation).length === 0) {            
+                alert("Please select one of the displayed drop-off stations first")
+                return}                                
+        } else {
+            alert("Error in the type of the object")
+            return
+        }
+
     
         e.preventDefault()
         document.querySelector('#myTrip').scrollIntoView({behavior: 'smooth'})

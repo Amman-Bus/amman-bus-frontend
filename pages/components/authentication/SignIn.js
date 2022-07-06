@@ -74,7 +74,9 @@ function SignIn (props){
 
             <div className='w-full text-4vw font-russo text-secondary-top pb-8 text-center'>Log In</div>
 
-            <form onSubmit={(e)=>{signInSubmitHandler(e)}} 
+            <form onSubmit={(e)=>{
+                
+            }} 
             className='flex flex-col items-center justify-center w-full'>
                 <input required ref={email} type="email" className='w-full rounded-2xl px-2 py-1 border-[1px] focus:border-secondary-top m-1 focus:shadow-md focus:outline-none focus:ring-0' placeholder='Email'/>
                 <input required ref={password} type="password" className='w-full rounded-2xl px-2 py-1 border-[1px] focus:border-secondary-top m-1 focus:shadow-md focus:outline-none focus:ring-0' placeholder='Password'/>
@@ -92,6 +94,13 @@ function SignIn (props){
                 </div>
 
                 <button 
+                onClick={(e)=>{
+                    try {
+                        signInSubmitHandler(e)
+                    } catch (error) {
+                        alert(error)
+                    }
+                }}
                 className='w-fit font-bold rounded-2xl m-2 mt-10 text-white bg-secondary-top px-4 py-2 shadow-md hover:text-blue-400 hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
                     Log In
                 </button>

@@ -21,7 +21,6 @@ function MainPage(props){
                 setIsService={props.setIsService}    
                 />
             <HomePage 
-                API_KEY={props.API_KEY} 
                 BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
                 isLoggedIn={props.isLoggedIn} 
                 setIsLoggedIn={props.setIsLoggedIn}
