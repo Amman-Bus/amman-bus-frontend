@@ -156,16 +156,21 @@ function Planning(props) {
                         >
                         
                             <div>
-                                {props.planningData.map(station => 
-                                    <Marker
-                                        position={{lat: station.lat, lng: station.lon}}
-                                        onClick={()=>{pinClickHandler(station)}}    
-                                        icon={{
-                                            url: (icon),
-                                            scaledSize: new google.maps.Size(70,70)
-                                        }}
-                                    />
-                                )}
+                                {
+                                    Array.isArray(props.planningData) ?
+                                        props.planningData.map(station => 
+                                            <Marker
+                                                position={{lat: station.lat, lng: station.lon}}
+                                                onClick={()=>{pinClickHandler(station)}}    
+                                                icon={{
+                                                    url: (icon),
+                                                    scaledSize: new google.maps.Size(70,70)
+                                                }}
+                                            />
+                                        )
+                                    :
+                                    <div>Error loding data</div>
+                                }
                             </div>
 
                         </GoogleMap>
