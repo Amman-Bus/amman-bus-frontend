@@ -179,12 +179,19 @@ function Planning(props) {
                 
                 <button onClick={(e)=>{
                     e.preventDefault()
-                    if(Object.keys(props.selectedPickUpPin).length === 0 || 
-                        Object.keys(props.selectedDropOffPin).length === 0) {
-                        alert("Please select a pick-up and drop-off station first")
+                    if (typeof props.selectedPickUpPin === 'object' && props.selectedPickUpPin !== null
+                        && typeof props.selectedDropOffPin === 'object' && props.selectedDropOffPin !== null) {
+                        if(Object.keys(props.selectedPickUpPin).length === 0 || 
+                            Object.keys(props.selectedDropOffPin).length === 0) {
+                            alert("Please select a pick-up and drop-off station first")
+                        } else {
+                            document.querySelector('#availablePlans').scrollIntoView({behavior: 'smooth'})
+                        } 
                     } else {
-                        document.querySelector('#availablePlans').scrollIntoView({behavior: 'smooth'})
+                        alert("Error in the type of the object")
+                        return
                     }
+                    
                 }}
                 className='w-fit font-bold rounded-2xl m-2 text-white bg-secondary-top px-4 py-2 shadow-md hover:bg-white hover:text-secondary-top transition duration-200 ease-in'>
                     Create plan

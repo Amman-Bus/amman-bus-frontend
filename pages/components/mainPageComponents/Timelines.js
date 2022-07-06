@@ -67,30 +67,32 @@ function Timelines(props) {
                             tableData.map(obj => {
                                 return <tr>
                                     {
-                                        Object.keys(obj).slice(0, 6).map((key, index) => {
-                                            if (key == "RouteID") {
-                                                return <td 
-                                                onClick={() => {document.querySelector('#divider3').scrollIntoView({behavior: 'smooth'})}}
-                                                className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
-                                                hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
-                                                >{obj[key]}</td>
-                                            } else if (key == "BusID") {
-                                                return <td 
-                                                onClick={() => {displayBus(obj["Location"].lat, obj["Location"].lng)}}
-                                                className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
-                                                hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
-                                                >{obj[key]}</td>
-                                            } else if (key == "Ratings") {
-                                                return <td 
-                                                className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
-                                                hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
-                                                >{(obj[key].reduce((prev, curr) => prev + curr)/obj[key].length).toFixed(2)}</td>
-                                            } else {
-                                                return <td className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
-                                                hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
-                                                >{obj[key]}</td>                                                
-                                            }
-                                        })
+                                        typeof obj === 'object' && obj !== null ?
+                                            Object.keys(obj).slice(0, 6).map((key, index) => {
+                                                if (key == "RouteID") {
+                                                    return <td 
+                                                    onClick={() => {document.querySelector('#divider3').scrollIntoView({behavior: 'smooth'})}}
+                                                    className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
+                                                    hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
+                                                    >{obj[key]}</td>
+                                                } else if (key == "BusID") {
+                                                    return <td 
+                                                    onClick={() => {displayBus(obj["Location"].lat, obj["Location"].lng)}}
+                                                    className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
+                                                    hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
+                                                    >{obj[key]}</td>
+                                                } else if (key == "Ratings") {
+                                                    return <td 
+                                                    className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
+                                                    hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
+                                                    >{(obj[key].reduce((prev, curr) => prev + curr)/obj[key].length).toFixed(2)}</td>
+                                                } else {
+                                                    return <td className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
+                                                    hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
+                                                    >{obj[key]}</td>                                                
+                                                }
+                                            }) :
+                                        <div>Error uploading the data</div>
                                     }
                                 </tr>
                             })

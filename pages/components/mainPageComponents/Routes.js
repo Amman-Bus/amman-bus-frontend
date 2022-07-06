@@ -62,36 +62,40 @@ function Routes(props) {
 
                 <tbody>
                     {
-                        data.map(obj => {
-                            return <tr>
-                                {
-                                    Object.keys(obj).map((key, index) => {
-                                        if (key != "Starts" && key != "Ends") {
-                                            if(key != "Stations") {
-                                                return <td 
-                                                className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
-                                                hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
-                                                >{obj[key]}</td>
-                                            } else {
-                                                return <td 
-                                                className='text-[1vw] font-bold text-center text-tratiary-top opacity-75
-                                                hover:cursor-pointer hover:scale-105 transition duration-300'
-                                                >
-                                                    <div className='w-full h-full grid grid-cols-3 gap-1'>
-                                                        {
-                                                            obj[key].map(subcell => {
-                                                                return(<di className='p-1 bg-primary-top rounded-lg hover:text-primary-top hover:bg-secondary-top'>
-                                                                    {subcell}</di>)
-                                                            })
-                                                        }
-                                                    </div>
-                                                </td>
-                                            }
-                                        }
-                                    })
-                                }
-                            </tr>
-                        })
+                        Array.isArray(data) ?
+                            data.map(obj => {
+                                return <tr>
+                                    {
+                                        typeof obj === 'object' && obj !== null ?
+                                            Object.keys(obj).map((key, index) => {
+                                                if (key != "Starts" && key != "Ends") {
+                                                    if(key != "Stations") {
+                                                        return <td 
+                                                        className='text-15vw font-bold text-center text-tratiary-top bg-primary-top opacity-75 rounded-lg
+                                                        hover:cursor-pointer hover:bg-secondary-top hover:text-primary-top hover:scale-105 transition duration-300'
+                                                        >{obj[key]}</td>
+                                                    } else {
+                                                        return <td 
+                                                        className='text-[1vw] font-bold text-center text-tratiary-top opacity-75
+                                                        hover:cursor-pointer hover:scale-105 transition duration-300'
+                                                        >
+                                                            <div className='w-full h-full grid grid-cols-3 gap-1'>
+                                                                {
+                                                                    obj[key].map(subcell => {
+                                                                        return(<di className='p-1 bg-primary-top rounded-lg hover:text-primary-top hover:bg-secondary-top'>
+                                                                            {subcell}</di>)
+                                                                    })
+                                                                }
+                                                            </div>
+                                                        </td>
+                                                    }
+                                                }
+                                            }) :
+                                        <div>Error uploading the data</div>
+                                    }
+                                </tr>
+                            }) :
+                        <div>Error uploading the data</div>
                     }
                 </tbody>
 

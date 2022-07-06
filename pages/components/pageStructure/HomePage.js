@@ -35,22 +35,26 @@ function HomePage(props) {
 
     const currentUser = JSON.parse(localStorage.getItem('currentUser'))
     
-    if (Object.keys(currentUser).length !== 0) {
-      props.setIsLoggedIn(false)
-      props.setIsSignUP(false)
-      props.setIsAuthorized(true)
-      
-      const userType = currentUser["user_type"]
-      if(userType == "passenger") {
-          props.setUserType("passenger")
-      } else if(userType == "driver") {
-          props.setUserType("driver")
+    if (typeof currentUser === 'object' && currentUser !== null) {
+      if (Object.keys(currentUser).length !== 0) {
+        props.setIsLoggedIn(false)
+        props.setIsSignUP(false)
+        props.setIsAuthorized(true)
+        
+        const userType = currentUser["user_type"]
+        if(userType == "passenger") {
+            props.setUserType("passenger")
+        } else if(userType == "driver") {
+            props.setUserType("driver")
+        } else {
+            alert("there is a problem in the naming of the user type")
+        }
+  
       } else {
-          alert("there is a problem in the naming of the user type")
+        localStorage.setItem('currentUser', JSON.stringify({}))
       }
-
     } else {
-      localStorage.setItem('currentUser', JSON.stringify({}))
+      alert("there is a problem in the type of the object")
     }
     
     const screenHeight = window.screen.height
