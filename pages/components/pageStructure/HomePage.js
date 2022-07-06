@@ -206,7 +206,6 @@ function HomePage(props) {
         </div>
 
         <Timelines 
-            API_KEY={props.API_KEY}
             BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
             />
 
@@ -218,7 +217,6 @@ function HomePage(props) {
         </div>
 
         <Stations 
-            API_KEY={props.API_KEY}
             BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
             />
 

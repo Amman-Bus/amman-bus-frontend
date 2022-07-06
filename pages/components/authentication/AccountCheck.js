@@ -38,7 +38,6 @@ function AccountCheck(props){
                 props.isService ?
                     props.userType == "passenger" ? 
                         <Passenger
-                            API_KEY={props.API_KEY} 
                             BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
                             userType={props.userType}
                             setUserType={props.setUserType}
@@ -46,7 +45,6 @@ function AccountCheck(props){
                             setIsService={props.setIsService}
                             /> : 
                         <Driver
-                            API_KEY={props.API_KEY} 
                             BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
                             userType={props.userType}
                             setUserType={props.setUserType}
@@ -55,7 +53,6 @@ function AccountCheck(props){
                             /> : 
                 
                 <MainPage 
-                    API_KEY={props.API_KEY} 
                     BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
                     isLoggedIn={props.isLoggedIn} 
                     setIsLoggedIn={props.setIsLoggedIn}

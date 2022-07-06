@@ -34,7 +34,6 @@ function Passenger(props) {
         <div className="w-full py-28 flex flex-col justify-center items-center">
 
             <Planning 
-                API_KEY={props.API_KEY} 
                 BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
                 selectedPickUpPin={selectedPickUpPin}
                 selectedDropOffPin={selectedDropOffPin}
@@ -46,7 +45,6 @@ function Passenger(props) {
             <img className='my-10 w-[10vw] h-[10vw] animate-arrows' src=".\images\arrow.png"/>
             
             <AvailablePlans
-                API_KEY={props.API_KEY} 
                 BACKEND_HEROKU_URL={props.BACKEND_HEROKU_URL}
                 setValue={setValue}
                 value={value}

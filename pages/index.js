@@ -8,8 +8,8 @@ import {
 
 function App() {
 
-  const REACT_APP_GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-  // const REACT_APP_GOOGLE_MAPS_API_KEY='AIzaSyDz93ecGzjl2joSh6_vtYi4oQ4KvJ9MQRg'
+  // const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  const API_KEY='AIzaSyDz93ecGzjl2joSh6_vtYi4oQ4KvJ9MQRg'
 
   const REACT_APP_BACKEND_HEROKU_URL='https://ammanbus.herokuapp.com'
 
@@ -21,7 +21,7 @@ function App() {
 
   const [isService, setIsService] = useState(false)
 
-  const { isLoaded } = useJsApiLoader({googleMapsApiKey: REACT_APP_GOOGLE_MAPS_API_KEY})
+  const { isLoaded } = useJsApiLoader({googleMapsApiKey: API_KEY})
   if (!isLoaded) {return <div>Loading...</div>}
   
   return (
@@ -38,7 +38,6 @@ function App() {
       </Head>
 
       <AccountCheck 
-          API_KEY={REACT_APP_GOOGLE_MAPS_API_KEY} 
           BACKEND_HEROKU_URL={REACT_APP_BACKEND_HEROKU_URL}
           isLoggedIn={isLoggedIn} 
           setIsLoggedIn={setIsLoggedIn}
